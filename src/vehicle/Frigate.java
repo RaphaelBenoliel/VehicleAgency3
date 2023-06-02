@@ -63,10 +63,10 @@ public class Frigate extends Vehicle implements ISeaTransportation, Motorized {
      */
     @Override
     public String toString(){
-        String result =  this.getClass().getSimpleName() +": " +super.toString() + " Under " + countryFlag + " flag, ";
+        String result =  this.getClass().getSimpleName() +": " +super.toString() + "\nUnder " + countryFlag + " flag, ";
         result += withWindDirection ? "with" : "against";
         return result + " the wind."
-                + " Engine: " + getAverageFuelConsumption() + "L, "
+                + "\nEngine: " + getAverageFuelConsumption() + "L, "
                 + "lifetime of " + getAverageEngineLife() + " years.";
     }
     /**

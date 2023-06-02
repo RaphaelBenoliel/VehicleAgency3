@@ -12,12 +12,12 @@ import java.util.Random;
 public class FlagsFrame extends JFrame implements ActionListener {
 
         private JButton[] flagButtons;
-        private String[] flagNames = {"Israel", "UnitedState", "Germany", "Greece", "Somalia", "JollyRoger", "Italia"};
+        private String[] flagNames = {"Israel", "USA", "german", "Greece", "somalia", "pirate", "italy"};
         private ImageIcon[] flagImages;
 
         public FlagsFrame() {
             super("Flags");
-            setSize(1400, 1000);
+            setSize(1000, 500);
             setDefaultCloseOperation(JFrame.HIDE_ON_CLOSE);
 
             JPanel panel = new JPanel();
@@ -28,7 +28,7 @@ public class FlagsFrame extends JFrame implements ActionListener {
             // Load the flag images
             flagImages = new ImageIcon[7];
             for (int i = 0; i < 7; i++) {
-                Image img = new ImageIcon("images/Flags/" + flagNames[i] + ".jpg").getImage();
+                Image img = new ImageIcon("src/ImgSource/" + flagNames[i] + ".png").getImage();
                 // Resize the image to your desired dimensions
                 Image resizedImg = img.getScaledInstance(300, 150, Image.SCALE_SMOOTH);
                 flagImages[i] = new ImageIcon(resizedImg);
@@ -48,6 +48,7 @@ public class FlagsFrame extends JFrame implements ActionListener {
                 panel.add(flagButtons[i]);
             }
 
+
             // Add the panel to the frame
             setContentPane(panel);
 
@@ -64,7 +65,7 @@ public class FlagsFrame extends JFrame implements ActionListener {
                 changeFlag("Israel");
             } //Israel
             if (source == flagButtons[1]){
-                changeFlag("UnitedState");
+                changeFlag("USA");
             } //UnitedState
             if (source == flagButtons[2]){
                 changeFlag("Germany");
@@ -76,7 +77,7 @@ public class FlagsFrame extends JFrame implements ActionListener {
                 changeFlag("Somalia");
             } //Somalia
             if (source == flagButtons[5]){
-                changeFlag("JollyRoger");
+                changeFlag("Pirate");
             } //JollyRoger
             if (source == flagButtons[6]){
                 changeFlag("Italia");
@@ -95,7 +96,7 @@ public class FlagsFrame extends JFrame implements ActionListener {
                             Random rand = new Random();
                             int randomNum;
                             randomNum = 3000 + rand.nextInt((8000 - 3000) + 1);
-                            Loading loading = new Loading("Updating Database...");
+                            LoadingDBFrame loadingDBFrame = new LoadingDBFrame("Updating Database...");
                             for (Vehicle i : MainFrame.vehicleList) {
                                 if (i instanceof ISeaTransportation)
                                     ((ISeaTransportation) i).setCountryFlag(flagName);
@@ -103,9 +104,9 @@ public class FlagsFrame extends JFrame implements ActionListener {
                                     ((Amphibious) i).setCountryFlag(flagName);
                             }
                             Thread.sleep(randomNum);
-                            loading.setText("Update Done!");
+                            loadingDBFrame.setText("Update Done!");
                             Thread.sleep(700);
-                            loading.terminate();
+                            loadingDBFrame.terminate();
                         }
                     } catch (InterruptedException e) {
                         JOptionPane.showMessageDialog(null, "Error");

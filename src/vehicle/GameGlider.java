@@ -49,9 +49,9 @@ public class GameGlider extends Vehicle implements IAirTransportation, noMotoriz
      */
     @Override
     public String toString(){
-        return this.getClass().getSimpleName() +": "+ super.toString() + " It is used for " + useInfo + "."
-                + " It's source power is " + getPowerSource()
-                + " and has a energy score of " + getEnergyScore() + ".";
+        return this.getClass().getSimpleName() +": "+ super.toString() + "\nIt is used for " + useInfo + "."
+                + "\nIt's source power is " + getPowerSource()
+                + "\nand has a energy score of " + getEnergyScore() + ".";
     }
 
     /**

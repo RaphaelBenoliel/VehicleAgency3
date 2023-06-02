@@ -16,91 +16,44 @@ public class CreateVehicleFrame extends JFrame implements ActionListener {
     private JTextField modelNameField;
 
     private JTextField sourceOfEnergyField;
-    private String modelName;
-    private JTextField maxSpeedField;
-    private JTextField AverageFuelConsumptionField;
-    private JTextField AverageLifeTimeField;
+//    private String modelName;
 
-//    private ImageIcon image1, image2, image3;
 
-    private JRadioButton radio1, radio2, radio3, validateButton;
-    JLabel imageLabel;
     String vehicleType;
     private JComboBox<Integer> comboBoxPassengers, comboBoxWheels,comboBoxFuel, comboBoxLifeTime, comboBoxSpeed ;
+    private JRadioButton withWindButton;
     private JComboBox<String> comboBoxKindOfLand, comboBoxFlag;
-
-
     private JButton confirmButton;
 
 
-    String path;
-
-    //constructor
     public CreateVehicleFrame(String vehicleType) {
         this.vehicleType = vehicleType;
         setTitle(vehicleType + " Details"); //title frame
-        setSize(500, 500); //size frame
+        setSize(500, 600); //size frame
         setLocationRelativeTo(null); //center the frame
         setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         setVisible(true); //show frame
 
         //images
-//        image1 = new ImageIcon("images/" + vehicleType + "Images/" + vehicleType + "1.jpg");
-//        image2 = new ImageIcon("images/" + vehicleType + "Images/" + vehicleType + "2.jpg");
-//        image3 = new ImageIcon("images/" + vehicleType + "Images/" + vehicleType + "3.jpg");
-
-//        //take image from imageIcon
-//        Image image1 = this.image1.getImage();
-//        Image image2 = this.image2.getImage();
-//        Image image3 = this.image3.getImage();
-//
-//        //resize the image
-//        Image newImage1 = image1.getScaledInstance(800, 600, Image.SCALE_SMOOTH);
-//        Image newImage2 = image2.getScaledInstance(800, 600, Image.SCALE_SMOOTH);
-//        Image newImage3 = image3.getScaledInstance(800, 600, Image.SCALE_SMOOTH);
-//
-//        //put back the image to imageIcon
-//        this.image1 = new ImageIcon(newImage1);
-//        this.image2 = new ImageIcon(newImage2);
-//        this.image3 = new ImageIcon(newImage3);
+        ImageIcon iconJeep = new ImageIcon("src/ImgSource/jeep3.png");
+        ImageIcon iconFrigate = new ImageIcon("src/ImgSource/frigate.png");
+        ImageIcon iconGameGlider = new ImageIcon("src/ImgSource/gameGlider.png");
+        ImageIcon iconSpyGlider = new ImageIcon("src/ImgSource/spyGlider.png");
+        ImageIcon iconBicycle = new ImageIcon("src/ImgSource/bicycle1.png");
+        ImageIcon iconCruise = new ImageIcon("src/ImgSource/cruise.png");
+        ImageIcon iconAmphibious = new ImageIcon("src/ImgSource/amphibious.png");
+        ImageIcon iconElectricBicycle = new ImageIcon("src/ImgSource/electricBike.png");
+        ImageIcon iconHybridPlane = new ImageIcon("src/ImgSource/hybridPlane.png");
 
         //create panel
         JPanel panel = new JPanel();
         panel.setLayout(new BoxLayout(panel, BoxLayout.Y_AXIS));
         getContentPane().add(panel);
-        panel.setBackground(Color.DARK_GRAY);
-
-//
-//        //Radio Buttons for images
-//        ButtonGroup group = new ButtonGroup();
-//        radio1 = new JRadioButton(vehicleType + "1", true);
-//        group.add(radio1);
-//        radio1.addActionListener( this);
-//        radio2 = new JRadioButton(vehicleType + "2");
-//        group.add(radio2);
-//        radio2.addActionListener( this);
-//        radio3 = new JRadioButton(vehicleType + "3");
-//        group.add(radio3);
-//        radio3.addActionListener( this);
-//
-//        panel.add(radio1);
-//        panel.add(radio2);
-//        panel.add(radio3);
-
-        //image label
-        imageLabel = new JLabel();
-        panel.add(imageLabel);
-        imageLabel.setPreferredSize(new Dimension(400,250));
-
-        confirmButton = new JButton("Confirm All");
-        confirmButton.addActionListener(this);
-        panel.add(confirmButton, BorderLayout.SOUTH);
-
 
         switch (vehicleType) {
-            case "Jeep": {
-
+            case "Jeep" -> {
                 //add text fields for model
+                panel.add(new JLabel(iconJeep));
                 panel.add(panelModel());
                 //combobox for max speed
                 panel.add(panelMaxSpeed(1000));
@@ -108,44 +61,50 @@ public class CreateVehicleFrame extends JFrame implements ActionListener {
                 panel.add(panelMaxFuel(100));
                 //combobox for lifetime
                 panel.add(panelLifeTime(100));
-                break;
             }
-            case "Frigate": {
+            case "Frigate" -> {
+                panel.add(new JLabel(iconFrigate));
                 //add text fields for model
                 panel.add(panelModel());
                 //combobox MaxSpeed
                 panel.add(panelMaxSpeed(1000));
                 //combo box for Maximum passengers
                 panel.add(panelMaxPassenger(50000));
-                break;
+                panel.add(panelWithDirection());
             }
-            case "GamePlane": {
+            case "GameGlider" -> {
+                panel.add(new JLabel(iconGameGlider));
                 //no button needed for him
-                break;
             }
-            case "SpyPlane": {
+            case "SpyGlider" -> {
+                panel.add(new JLabel(iconSpyGlider));
                 panel.add(panelSourceOfEnergy());
-                break;
             }
-            case "Bicycle": {
+            case "Bicycle" -> {
+                panel.add(new JLabel(iconBicycle));
                 panel.add(panelModel());
+                panel.add(panelMaxSpeed(30));
+                panel.add(panelMaxPassenger(3));
                 panel.add(panelKindOfLand());
-                break;
             }
-            case "CruiseShip": {
+            case "CruiseShip" -> {
+                panel.add(new JLabel(iconCruise));
                 //add text fields for model
                 panel.add(panelModel());
                 //combobox MaxPassenger
-                panel.add((panelMaxPassenger(10000)));
+                panel.add((panelMaxPassenger(1000)));
                 //combobox MaxSpeed
-                panel.add(panelMaxSpeed(1000));
+                panel.add(panelMaxSpeed(999999));
                 //combobox Flag
                 panel.add(panelFlag());
 
-                break;
             }
-            case "Amphibious", "HybridPlane": {
-                imageLabel.setPreferredSize(new Dimension(400, 200));
+            case "Amphibious", "HybridPlane" -> {
+                if (vehicleType.equals("Amphibious")) {
+                    panel.add(new JLabel(iconAmphibious));
+                } else {
+                    panel.add(new JLabel(iconHybridPlane));
+                }
                 //add text fields for model
                 panel.add(panelModel());
                 //combobox MaxSpeed
@@ -158,33 +117,34 @@ public class CreateVehicleFrame extends JFrame implements ActionListener {
                 panel.add(panelLifeTime(100));
                 //combobox max number of passenger
                 panel.add(panelMaxPassenger(1000));
+                //combobox with direction
+                panel.add(panelWithDirection());
+                panel.add(panelFlag());
 
-                break;
             }
-
-            case "ElectricBicycle": {
+            case "ElectricBicycle" -> {
+                panel.add(new JLabel(iconElectricBicycle));
                 //add text fields for model
                 panel.add(panelModel());
                 //combobox MaxSpeed
                 panel.add(panelMaxSpeed(1000));
+                panel.add(panelMaxPassenger(3));
+                panel.add(panelKindOfLand());
                 //combobox lifetime
                 panel.add(panelLifeTime(100));
-                break;
             }
         }
+        confirmButton = new JButton("Create Vehicle");
+        panel.add(confirmButton, BorderLayout.SOUTH);
+        confirmButton.addActionListener(this);
     }
-
 
     public JPanel panelModel(){
         JPanel panelModel = new JPanel();
-        modelNameField = new JTextField("Enter Model Name", 25);
+        modelNameField = new JTextField("Enter Model Name", 20);
         panelModel.add(modelNameField);
         modelNameField.addActionListener(this);
-//        validateButton = new JRadioButton("Confirm");
-//        panelModel.add(validateButton);
-//        validateButton.addActionListener(this);
         return panelModel;
-
     }
 
     public JPanel panelMaxSpeed(int limit){
@@ -240,9 +200,6 @@ public class CreateVehicleFrame extends JFrame implements ActionListener {
         sourceOfEnergyField = new JTextField("Enter Source of Energy", 25);
         panelSourceOfEnergy.add(sourceOfEnergyField);
         sourceOfEnergyField.addActionListener(this);
-//        validateButton = new JRadioButton("Confirm");
-//        panelSourceOfEnergy.add(validateButton);
-//        validateButton.addActionListener(this);
         return panelSourceOfEnergy;
     }
 
@@ -283,6 +240,17 @@ public class CreateVehicleFrame extends JFrame implements ActionListener {
         panelNumberOfWheels.add(comboBoxWheels);
         return panelNumberOfWheels;
     }
+    public JPanel panelWithDirection(){
+        JPanel panelWithDirection = new JPanel();
+        withWindButton = new JRadioButton("With the wind direction", true);
+        JRadioButton againstWindButton = new JRadioButton("Against the wind direction");
+        ButtonGroup group = new ButtonGroup();
+        group.add(withWindButton);
+        group.add(againstWindButton);
+        panelWithDirection.add(withWindButton);
+        panelWithDirection.add(againstWindButton);
+        return panelWithDirection;
+    }
 
     @Override
     public void actionPerformed(ActionEvent e) {
@@ -302,9 +270,9 @@ public class CreateVehicleFrame extends JFrame implements ActionListener {
 //        if (source == validateButton){
 //            modelName = modelNameField.getText();
 //        }
-        if (source == comboBoxSpeed){
-            double selectValue = (double) comboBoxSpeed.getSelectedItem();
-        }
+//        if (source == comboBoxSpeed){
+//            int selectValue = (Integer) comboBoxSpeed.getSelectedItem();
+//        }
         if(source == confirmButton){
             switch (vehicleType) {
                 case "Jeep": {
@@ -322,49 +290,81 @@ public class CreateVehicleFrame extends JFrame implements ActionListener {
                         img = new ImageIcon("src/ImgSource/frigate.png");
                         img = new ImageIcon(img.getImage().getScaledInstance(180, 170, Image.SCALE_DEFAULT));
                     }
-                    update(new Frigate(modelNameField.getText(), (Integer) comboBoxPassengers.getSelectedItem(),(Integer) comboBoxSpeed.getSelectedItem(),true, img));
+                    update(new Frigate(modelNameField.getText(), (Integer) comboBoxPassengers.getSelectedItem(),(Integer) comboBoxSpeed.getSelectedItem(),withWindButton.isSelected(), img));
                     break;
                 }
-//                case "GamePlane": {
-//                    update((new GamePlane(path)));
-//                    break;
-//                }
-//                case "SpyPlane": {
-//                    update(new SpyPlane(sourceOfEnergyField.getText(),path));
-//                    break;
-//                }
-//                case "Bicycle": {
-//                    if (comboBoxKindOfLand.getSelectedItem() == "Paved")
-//                        update(new Bicycle(modelNameField.getText(), LandVehicle.kindOfLand.paved,path));
-//                    else
-//                        update(new Bicycle(modelNameField.getText(), LandVehicle.kindOfLand.dirt,path));
-//                    break;
-//                }
-//                case "CruiseShip": {
-//                    update(new CruiseShip(modelNameField.getText(), (Integer) comboBoxPassengers.getSelectedItem(),(Double)comboBoxSpeed.getSelectedItem(), (String) comboBoxFlag.getSelectedItem() , path));
-//                    break;
-//                }
-//                case "Amphibious", "HybridPlane": {
-//                    if (vehicleType == "Amphibious")
-//                        update(new Amphibious(modelNameField.getText(), (Double) comboBoxSpeed.getSelectedItem(), (Integer) comboBoxWheels.getSelectedItem(), (Double) comboBoxFuel.getSelectedItem(), (Double) comboBoxLifeTime.getSelectedItem(),(Integer) comboBoxPassengers.getSelectedItem(), path));
-//                    else
-//                        update(new HybridPlane(modelNameField.getText(), (Double) comboBoxSpeed.getSelectedItem(), (Integer) comboBoxWheels.getSelectedItem(), (Double) comboBoxFuel.getSelectedItem(), (Double) comboBoxLifeTime.getSelectedItem(),(Integer) comboBoxPassengers.getSelectedItem(), path));
-//                    break;
-//                }
-//                case "ElectricBicycle": {
-//                    update(new ElectricBicycle(modelNameField.getText(), (Double) comboBoxSpeed.getSelectedItem(), (Double) comboBoxLifeTime.getSelectedItem(), path));
-//                    break;
-//                }
+                case "GameGlider": {
+                    ImageIcon img = getImageFromUser();
+                    if (img == null) {
+                        img = new ImageIcon("src/ImgSource/gameGlider.png");
+                        img = new ImageIcon(img.getImage().getScaledInstance(180, 170, Image.SCALE_DEFAULT));
+                    }
+                    update((new GameGlider(img)));
+                    break;
+                }
+                case "SpyGlider": {
+                    ImageIcon img = getImageFromUser();
+                    if (img == null) {
+                        img = new ImageIcon("src/ImgSource/spyGlider.png");
+                        img = new ImageIcon(img.getImage().getScaledInstance(180, 170, Image.SCALE_DEFAULT));
+                    }
+                    update(new SpyGlider(sourceOfEnergyField.getText(), img));
+                    break;
+                }
+                case "Bicycle": {
+                    ImageIcon img = getImageFromUser();
+                    if (img == null) {
+                        img = new ImageIcon("src/ImgSource/bicycle1.png");
+                        img = new ImageIcon(img.getImage().getScaledInstance(180, 170, Image.SCALE_DEFAULT));
+                    }
+                    update(new Bicycle(modelNameField.getText(), (Integer) comboBoxPassengers.getSelectedItem(),(Integer) comboBoxSpeed.getSelectedItem(),  (String)comboBoxKindOfLand.getSelectedItem() ,img));
+                    break;
+                }
+                case "CruiseShip": {
+                    ImageIcon img = getImageFromUser();
+                    if (img == null) {
+                        img = new ImageIcon("src/ImgSource/cruise.png");
+                        img = new ImageIcon(img.getImage().getScaledInstance(180, 170, Image.SCALE_DEFAULT));
+                    }
+                    update(new CruiseShip(modelNameField.getText(), (Integer) comboBoxPassengers.getSelectedItem(),(Integer) comboBoxSpeed.getSelectedItem(), (String) comboBoxFlag.getSelectedItem() , img));
+                    break;
+                }
+                case "Amphibious", "HybridPlane": {
+                    if (vehicleType.equals("Amphibious")) {
+                        ImageIcon img = getImageFromUser();
+                        if (img == null) {
+                            img = new ImageIcon("src/ImgSource/amphibious.png");
+                            img = new ImageIcon(img.getImage().getScaledInstance(180, 170, Image.SCALE_DEFAULT));
+                        }
+                        update(new Amphibious(modelNameField.getText(), (Integer) comboBoxPassengers.getSelectedItem(),
+                                (Integer) comboBoxSpeed.getSelectedItem(), (Integer) comboBoxWheels.getSelectedItem(), withWindButton.isSelected(), (String) comboBoxFlag.getSelectedItem(), (Integer) comboBoxFuel.getSelectedItem(),
+                                (Integer) comboBoxLifeTime.getSelectedItem(), img));
+                    } else {
+                        ImageIcon img = getImageFromUser();
+                        if (img == null) {
+                            img = new ImageIcon("src/ImgSource/hybridPlane.png");
+                            img = new ImageIcon(img.getImage().getScaledInstance(180, 170, Image.SCALE_DEFAULT));
+                        }
+                        update(new HybridPlane(modelNameField.getText(), (Integer) comboBoxPassengers.getSelectedItem(),(Integer) comboBoxSpeed.getSelectedItem(), (Integer) comboBoxWheels.getSelectedItem(), withWindButton.isSelected(), (String) comboBoxFlag.getSelectedItem(),(Integer) comboBoxFuel.getSelectedItem(), (Integer) comboBoxLifeTime.getSelectedItem(),  img));
+                    }
+                    break;
+                }
+                case "ElectricBicycle": {
+                    ImageIcon img = getImageFromUser();
+                    if (img == null) {
+                        img = new ImageIcon("src/ImgSource/electricBike.png");
+                        img = new ImageIcon(img.getImage().getScaledInstance(180, 170, Image.SCALE_DEFAULT));
+                    }
+                    update(new ElectricBicycle(modelNameField.getText(),(Integer) comboBoxPassengers.getSelectedItem(), (Integer) comboBoxSpeed.getSelectedItem(), (String)comboBoxKindOfLand.getSelectedItem(), (Integer) comboBoxLifeTime.getSelectedItem(), img));
+                    break;
+                }
 
             }
 
             // essaie du bouton confirm
             this.dispose();
             MainFrame frameCars = new MainFrame();
-
         }
-
-
     }
 
     public void update(Vehicle vehicle) {
@@ -374,12 +374,12 @@ public class CreateVehicleFrame extends JFrame implements ActionListener {
                     Random rand = new Random();
                     int randomNum;
                     randomNum = 3000 + rand.nextInt((8000 - 3000) + 1);
-                    Loading loading = new Loading("Updating Database...");
+                    LoadingDBFrame loadingDBFrame = new LoadingDBFrame("Updating Database...");
                     MainFrame.vehicleList.add(vehicle);
                     Thread.sleep(randomNum);
-                    loading.setText("Update Done!");
+                    loadingDBFrame.setText("Update Done!");
                     Thread.sleep(700);
-                    loading.terminate();
+                    loadingDBFrame.terminate();
                 }
             } catch (InterruptedException e) {
                 JOptionPane.showMessageDialog(null, "Error");

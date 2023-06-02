@@ -75,8 +75,9 @@ public abstract class Vehicle {
      */
     @Override
     public String toString() {
-        return "Model: " + this.getModel() + ", Traveled: " + this.getDistanceTraveled() + "KM, Max Speed of " + this.getMaxSpeed() +
-                "Mph, can carry max of " + this.getMaxPassengers() + " people.";
+        return "Model: " + this.getModel() +",\nTraveled: " + this.getDistanceTraveled() + "KM,\nMax Speed of "
+                + this.getMaxSpeed() +
+                "Mph,\ncan carry max of " + this.getMaxPassengers() + " people.";
     }
 
     /**

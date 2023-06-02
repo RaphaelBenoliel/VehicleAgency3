@@ -12,69 +12,24 @@ import static java.lang.System.exit;
 
 public class MenuFrame extends JFrame implements ActionListener {
     private static MenuFrame instance;
-    //data members
-    private ImageIcon iconAddVehicle = new ImageIcon("images/Icons/addVehicle.png");
-    private ImageIcon iconBuyVehicle = new ImageIcon("images/Icons/buyVehicle.png");
-    private ImageIcon iconTakeVehicle = new ImageIcon("images/Icons/takeVehicleForTest.png");
-    private ImageIcon iconResetDistance = new ImageIcon("images/Icons/resetDistance.png");
-    private ImageIcon iconChangeFlag = new ImageIcon("images/Icons/changeFlag.png");
-    private ImageIcon iconInventory = new ImageIcon("images/Icons/Inventory.png");
-    private ImageIcon iconExit = new ImageIcon("images/Icons/exit.png");
+    private final JButton addVehicleButton = new JButton("Add Vehicle");
+    private final JButton buyVehicleButton = new JButton("Buy Vehicle");
+    private final JButton takeVehicleButton = new JButton("Test Drive");
+    private final JButton resetDistanceButton = new JButton("Reset Distance");
+    private final JButton changeFlagButton = new JButton("Change flag");
+    private final JButton inventoryButton = new JButton("Inventory");
+    private final JButton exitButton = new JButton("Quit");
 
-
-    private JButton addVehicleButton = new JButton("Add Vehicle");
-    private JButton buyVehicleButton = new JButton("Buy Vehicle");
-    private JButton takeVehicleButton = new JButton("Take vehicle for test");
-    private JButton resetDistanceButton = new JButton("Reset Distance");
-    private JButton changeFlagButton = new JButton("Change flag");
-    private JButton inventoryButton = new JButton("Inventory");
-    private JButton exitButton = new JButton("Exit");
-
-    private Object lock = new Object();
+    private final Object lock = new Object();
 
 
     //constructor
     private MenuFrame() {
-        super("Menu user");
+        super("Vehicle Agency Menu");
         this.setSize(800, 600);
 
         JPanel panel = new JPanel(new GridLayout(7, 1));
         getContentPane().add(panel);
-        panel.setBackground(Color.darkGray);
-
-        //take image from imageIcon and change size
-        Image imageAddVehicle = iconAddVehicle.getImage();
-        imageAddVehicle = imageAddVehicle.getScaledInstance(50, 50, Image.SCALE_SMOOTH);
-        Image imageBuyVehicle = iconBuyVehicle.getImage();
-        imageBuyVehicle = imageBuyVehicle.getScaledInstance(50, 50, Image.SCALE_SMOOTH);
-        Image imageTakeVehicle = iconTakeVehicle.getImage();
-        imageTakeVehicle = imageTakeVehicle.getScaledInstance(50, 50, Image.SCALE_SMOOTH);
-        Image imageResetDistance = iconResetDistance.getImage();
-        imageResetDistance = imageResetDistance.getScaledInstance(50, 50, Image.SCALE_SMOOTH);
-        Image imageChangeFlag = iconChangeFlag.getImage();
-        imageChangeFlag = imageChangeFlag.getScaledInstance(50, 50, Image.SCALE_SMOOTH);
-        Image imageInventory = iconInventory.getImage();
-        imageInventory = imageInventory.getScaledInstance(50, 50, Image.SCALE_SMOOTH);
-        Image imageExit = iconExit.getImage();
-        imageExit = imageExit.getScaledInstance(50, 50, Image.SCALE_SMOOTH);
-
-        //comeback to imageIcon
-        this.iconAddVehicle = new ImageIcon(imageAddVehicle);
-        this.iconBuyVehicle = new ImageIcon(imageBuyVehicle);
-        this.iconTakeVehicle = new ImageIcon(imageTakeVehicle);
-        this.iconResetDistance = new ImageIcon(imageResetDistance);
-        this.iconChangeFlag = new ImageIcon(imageChangeFlag);
-        this.iconInventory = new ImageIcon(imageInventory);
-        this.iconExit = new ImageIcon(imageExit);
-
-        //set icon to buttons
-        addVehicleButton.setIcon(iconAddVehicle);
-        buyVehicleButton.setIcon(iconBuyVehicle);
-        takeVehicleButton.setIcon(iconTakeVehicle);
-        resetDistanceButton.setIcon(iconResetDistance);
-        changeFlagButton.setIcon(iconChangeFlag);
-        inventoryButton.setIcon(iconInventory);
-        exitButton.setIcon(iconExit);
 
 
         //adding buttons to panel
@@ -119,20 +74,26 @@ public class MenuFrame extends JFrame implements ActionListener {
         Object source = e.getSource();
         boolean flag = false;
         if (source == addVehicleButton) {
-            MainFrame frameCars = new MainFrame();
-//            this.dispose();
+            new MainFrame();
+
         }
         if (source == buyVehicleButton) {
-            AllVehicles allVehicles = new AllVehicles();
-            for (Object vehicle : MainFrame.vehicleList) {
-                System.out.println(vehicle.toString());
+           if (BuyingVehicleFrame.getInstance() == null) {
+               BuyingVehicleFrame.getInstance();
             }
-            //this.dispose();
+           else {
+               BuyingVehicleFrame.resetInstance();
+               BuyingVehicleFrame.getInstance();
+           }
         }
         if (source == takeVehicleButton) {
-            TestingVehicleFrame vehicleTest = new TestingVehicleFrame();
-
-
+            if (TestingVehicleFrame.getInstance() == null) {
+                TestingVehicleFrame.getInstance();
+            }
+            else {
+                TestingVehicleFrame.resetInstance();
+                TestingVehicleFrame.getInstance();
+            }
         }
         //this.dispose();
         if (source == resetDistanceButton) {
@@ -149,21 +110,20 @@ public class MenuFrame extends JFrame implements ActionListener {
 //            this.dispose();
         }
         if (source == inventoryButton) {
-            OnlySeeAllVehicle allVehicles = new OnlySeeAllVehicle();
+            InventoryFrame allVehicles = new InventoryFrame();
 //            this.dispose();
         }
         if (source == exitButton) {
             if(TestManager.isAnyVehicleInTest() || BuyManager.isAnyVehicleInBuyProgress()){
                     JOptionPane.showMessageDialog(null, "You can't exit while vehicle is in test!", "Error", JOptionPane.ERROR_MESSAGE);
                     return;
-
             }
-            ImageIcon icon = new ImageIcon("images/Icons/giphy.gif");
-            JLabel label = new JLabel(icon);
-            JPanel panel = new JPanel();
-            panel.add(label);
-            JOptionPane.showMessageDialog(null, panel, "Goodbye!", JOptionPane.PLAIN_MESSAGE);
-            exit(0);
+            int option = JOptionPane.showConfirmDialog(this,
+                    "Are you sure you want to exit?", "Exit", JOptionPane.YES_NO_OPTION);
+            if (option == JOptionPane.YES_OPTION) {
+                JOptionPane.showMessageDialog(null, "Goodbye!","Quit" ,JOptionPane.PLAIN_MESSAGE);
+                System.exit(0);
+            }
         }
     }
 
@@ -177,14 +137,14 @@ public class MenuFrame extends JFrame implements ActionListener {
                             Random rand = new Random();
                             int randomNum;
                             randomNum = 3000 + rand.nextInt((8000 - 3000) + 1);
-                            Loading loading = new Loading("Updating Database...");
+                            LoadingDBFrame loadingDBFrame = new LoadingDBFrame("Updating Database...");
                             for (Vehicle i : MainFrame.vehicleList) {
                                 i.setDistanceTraveled(0);
                             }
                             Thread.sleep(randomNum);
-                            loading.setText("Update Done!");
+                            loadingDBFrame.setText("Update Done!");
                             Thread.sleep(700);
-                            loading.terminate();
+                            loadingDBFrame.terminate();
                         }
                     } catch (InterruptedException e) {
                         JOptionPane.showMessageDialog(null, "Error");

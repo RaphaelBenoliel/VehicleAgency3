@@ -8,18 +8,18 @@ import java.util.Random;
 
 import javax.swing.*;
 
-public class AllVehicles {
-
+public class BuyingVehicleFrame {
+    private static BuyingVehicleFrame instance;
     private ImageIcon imageVehicle;
 
     private JFrame frame;
 
 
     //constructor
-    public AllVehicles() {
+    private BuyingVehicleFrame() {
 
-        frame = new JFrame();
-        frame.setBounds(100, 100, 800, 600);
+        frame = new JFrame("Buy Vehicle");
+        frame.setBounds(100, 100, 1000, 800);
         frame.setDefaultCloseOperation(JFrame.HIDE_ON_CLOSE);
         frame.getContentPane().setLayout(new GridLayout(0, 3, 10, 10)); // 3 columns
         frame.getContentPane().setBackground(Color.darkGray);
@@ -35,8 +35,16 @@ public class AllVehicles {
         frame.setVisible(true);
 
     }
-
-
+    public static BuyingVehicleFrame getInstance() {
+        if (instance == null) {
+            instance = new BuyingVehicleFrame();
+        }
+        return instance;
+    }
+    public static void resetInstance() {
+        instance.frame.dispose();
+        instance = null;
+    }
     public JLabel VehiclePanels(Vehicle vehicle) {
         JLabel panel = new JLabel();
         panel.setLayout(new GridLayout(2, 1)); // 2 rows
@@ -48,7 +56,7 @@ public class AllVehicles {
 //        System.out.println(vehicle.getPath());
 
         Image image = imageVehicle.getImage(); // transform it
-        image = image.getScaledInstance(250, 300, java.awt.Image.SCALE_SMOOTH); // scale it the smooth way
+        image = image.getScaledInstance(200, 200, java.awt.Image.SCALE_SMOOTH); // scale it the smooth way
 
         this.imageVehicle = new ImageIcon(image);  // transform it back
         imageLabel.setIcon(imageVehicle);
@@ -64,7 +72,7 @@ public class AllVehicles {
                 int delay = new Random().nextInt(6) + 5;
                 try{
                     Thread.sleep(delay * 1000);
-                    new Loading("Charging");
+                    new LoadingDBFrame("Charging");
                 }catch (InterruptedException ex){
                     ex.printStackTrace();
                 }
@@ -93,12 +101,12 @@ public class AllVehicles {
                     Random rand = new Random();
                     int randomNum;
                     randomNum = 3000 + rand.nextInt((8000 - 3000) + 1);
-                    Loading loading = new Loading("Updating Database...");
+                    LoadingDBFrame loadingDBFrame = new LoadingDBFrame("Updating Database...");
                     MainFrame.vehicleList.remove(vehicle);
                     Thread.sleep(randomNum);
-                    loading.setText("Update Done!");
+                    loadingDBFrame.setText("Update Done!");
                     Thread.sleep(700);
-                    loading.terminate();
+                    loadingDBFrame.terminate();
                 }
             } catch (InterruptedException e) {
                 JOptionPane.showMessageDialog(null, "Error");
@@ -114,10 +122,10 @@ public class AllVehicles {
                     Random rand = new Random();
                     int randomNum;
                     randomNum = 3000 + rand.nextInt((10000 - 5000) + 1);
-                    Loading loading = new Loading("Charging Database");
+                    LoadingDBFrame loadingDBFrame = new LoadingDBFrame("Charging Database");
                     Thread.sleep(randomNum);
                     Thread.sleep(700);
-                    loading.terminate();
+                    loadingDBFrame.terminate();
                 }
             } catch (InterruptedException e) {
                 JOptionPane.showMessageDialog(null, "Error");

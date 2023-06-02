@@ -1,11 +1,12 @@
 package Graphics;
+
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 import java.util.ArrayList;
-
-//import my packages
 import vehicle.*;
 
 public class MainFrame extends JFrame implements ActionListener {
@@ -14,11 +15,8 @@ public class MainFrame extends JFrame implements ActionListener {
     static ArrayList<Vehicle> vehicleList; //np modifier (only for package gui)
     public static void main(String[] args) {
 
-        //create new array list
-        //create new object
         vehicleList = new ArrayList<Vehicle>();
-        MainFrame frame = new MainFrame();
-
+        new MainFrame();
     }
 
     //data members
@@ -26,19 +24,19 @@ public class MainFrame extends JFrame implements ActionListener {
     //all Buttons
     private final JButton buttonJeep = new JButton();
     private final JButton buttonFrigate = new JButton();
-    private final JButton buttonGamePlane = new JButton();
-    private final JButton buttonSpyPlane = new JButton();
+    private final JButton buttonGameGlider = new JButton();
+    private final JButton buttonSpyGlider = new JButton();
     private final JButton buttonBicycle = new JButton();
     private final JButton buttonCruise = new JButton();
     private final JButton buttonAmphibious = new JButton();
     private final JButton buttonElectricBicycle = new JButton();
     private final JButton buttonHybridPlane = new JButton();
-    private final JButton buttonShowAllVehicle = new JButton();
+    private final JButton buttonClose = new JButton();
 
 
     //constructor
     public MainFrame() {
-        super("Car Agency");
+        super("Choose a Vehicle to create");
         this.setSize(800, 600);
 
         JPanel panel = new JPanel();
@@ -53,125 +51,127 @@ public class MainFrame extends JFrame implements ActionListener {
         ImageIcon iconCruise = new ImageIcon("src/ImgSource/cruise.png");
         ImageIcon iconAmphibious = new ImageIcon("src/ImgSource/amphibious.png");
         ImageIcon iconElectricBicycle = new ImageIcon("src/ImgSource/electricBike.png");
-        ImageIcon iconHybridPlane = new ImageIcon("");
-        ImageIcon iconMenu = new ImageIcon("");
+        ImageIcon iconHybridPlane = new ImageIcon("src/ImgSource/hybridPlane.png");
+        ImageIcon iconMenu = new ImageIcon("src/ImgSource/menu.png");
+
         //all labels buttons
         JLabel labelJeep = new JLabel("Jeep");
+        labelJeep.setFont(labelJeep.getFont().deriveFont(Font.BOLD, 16)); // Set the font to bold and size 24
+//        labelJeep.setHorizontalAlignment(SwingConstants.CENTER);
         JLabel labelFrigate = new JLabel("Frigate");
-        JLabel labelGamePlane = new JLabel("Game Plane");
-        JLabel labelSpyPlane = new JLabel("Spy Plane");
+        labelFrigate.setFont(labelJeep.getFont().deriveFont(Font.BOLD, 16));
+        JLabel labelGamePlane = new JLabel("Game Glider");
+        labelGamePlane.setFont(labelJeep.getFont().deriveFont(Font.BOLD, 16));
+        JLabel labelSpyPlane = new JLabel("Spy Glider");
+        labelSpyPlane.setFont(labelJeep.getFont().deriveFont(Font.BOLD, 16));
         JLabel labelBicycle = new JLabel("Bicycle");
+        labelBicycle.setFont(labelJeep.getFont().deriveFont(Font.BOLD, 16));
         JLabel labelCruise = new JLabel("Cruise");
+        labelCruise.setFont(labelJeep.getFont().deriveFont(Font.BOLD, 16));
         JLabel labelAmphibious = new JLabel("Amphibious");
+        labelAmphibious.setFont(labelJeep.getFont().deriveFont(Font.BOLD, 16));
         JLabel labelElectricBicycle = new JLabel("Electric Bicycle");
+        labelElectricBicycle.setFont(labelJeep.getFont().deriveFont(Font.BOLD, 16));
         JLabel labelHybridPlane = new JLabel("Hybrid Plane");
+        labelHybridPlane.setFont(labelJeep.getFont().deriveFont(Font.BOLD, 16));
         JLabel labelMenu = new JLabel("Go to Menu");
-
+        labelMenu.setFont(labelJeep.getFont().deriveFont(Font.BOLD, 16));
 
 
         //add all panels
         panel.add(newPanel(iconJeep, labelJeep, buttonJeep));
         panel.add(newPanel(iconFrigate, labelFrigate, buttonFrigate));
-        panel.add(newPanel(iconGameGlider, labelGamePlane, buttonGamePlane));
-        panel.add(newPanel(iconSpyGlider, labelSpyPlane, buttonSpyPlane));
+        panel.add(newPanel(iconGameGlider, labelGamePlane, buttonGameGlider));
+        panel.add(newPanel(iconSpyGlider, labelSpyPlane, buttonSpyGlider));
         panel.add(newPanel(iconBicycle, labelBicycle, buttonBicycle));
         panel.add(newPanel(iconCruise, labelCruise, buttonCruise));
         panel.add(newPanel(iconAmphibious, labelAmphibious, buttonAmphibious));
         panel.add(newPanel(iconElectricBicycle, labelElectricBicycle, buttonElectricBicycle));
         panel.add(newPanel(iconHybridPlane, labelHybridPlane, buttonHybridPlane));
-        panel.add(newPanel(iconMenu, labelMenu, buttonShowAllVehicle));
-
+        panel.add(newPanel(iconMenu, labelMenu, buttonClose));
+        setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
+        addWindowListener(new WindowAdapter() {
+            @Override
+            public void windowClosing(WindowEvent e) {
+                if (MainFrame.vehicleList.size() == 0) {
+                    JOptionPane.showMessageDialog(null, "There is no vehicle in the agency!");
+                } else {
+                    //open menu frame and close this frame
+                    MenuFrame.getInstance();
+                    dispose();
+                }
+            }
+        });
         //action listeners
-        buttonShowAllVehicle.addActionListener(this);
+        buttonClose.addActionListener(this);
         buttonJeep.addActionListener(this);
         buttonFrigate.addActionListener(this);
-        buttonGamePlane.addActionListener(this);
-        buttonSpyPlane.addActionListener(this);
+        buttonGameGlider.addActionListener(this);
+        buttonSpyGlider.addActionListener(this);
         buttonBicycle.addActionListener(this);
         buttonCruise.addActionListener(this);
         buttonAmphibious.addActionListener(this);
         buttonElectricBicycle.addActionListener(this);
         buttonHybridPlane.addActionListener(this);
-
-        setDefaultCloseOperation(JFrame.HIDE_ON_CLOSE);
-
         setVisible(true);
     }
 
     public JPanel newPanel(ImageIcon icon, JLabel label, JButton button){
         JPanel panel = new JPanel();
-//        panel.setBackground(Color.DARK_GRAY);
         panel.setLayout(new BoxLayout(panel, BoxLayout.Y_AXIS));
         button.setIcon(icon);
         button.setPreferredSize(new Dimension(500, 500));
-//        label.setForeground(Color.WHITE);
         panel.add(button);
         panel.add(label);
         return panel;
     }
 
-
+    @Override
     public void actionPerformed(ActionEvent e) {
-        if (e.getSource() == buttonShowAllVehicle) {
-            // Open new frame for menu
-
-//            OnlySeeAllVehicle onlySeeAllVehicle = new OnlySeeAllVehicle();
+        if (e.getSource() == buttonClose){
             if (MainFrame.vehicleList.size() == 0) {
                 JOptionPane.showMessageDialog(null, "There is no vehicle in the agency!");
             } else {
-//                OnlySeeAllVehicle onlySeeAllVehicle = new OnlySeeAllVehicle();
-                MenuFrame menuFrame = MenuFrame.getInstance();
-                this.dispose(); // Close current frame
+                // Open new frame for menu singleton
+                MenuFrame.getInstance();
+                this.dispose();
             }
-
         }
         if (e.getSource() == buttonJeep) {
-            // Open new frame for menu
-            CreateVehicleFrame detailsForJeep = new CreateVehicleFrame("Jeep");
-            this.dispose(); // Close current frame
+            new CreateVehicleFrame("Jeep");
+            this.dispose();
         }
         if (e.getSource() == buttonFrigate) {
-            // Open new frame for menu
-            CreateVehicleFrame detailsForFrigate = new CreateVehicleFrame("Frigate");
-            this.dispose(); // Close current frame
+            new CreateVehicleFrame("Frigate");
+            this.dispose();
         }
-        if (e.getSource() == buttonGamePlane) {
-            // Open new frame for menu
-            CreateVehicleFrame detailsForGamePlane = new CreateVehicleFrame("GamePlane");
-            this.dispose(); // Close current frame
+        if (e.getSource() == buttonGameGlider) {
+            new CreateVehicleFrame("GameGlider");
+            this.dispose();
         }
-        if (e.getSource() == buttonSpyPlane) {
-            // Open new frame for menu
-            CreateVehicleFrame detailsForSpyPlane = new CreateVehicleFrame("SpyPlane");
-            this.dispose(); // Close current frame
+        if (e.getSource() == buttonSpyGlider) {
+            new CreateVehicleFrame("SpyGlider");
+            this.dispose();
         }
         if (e.getSource() == buttonBicycle) {
-            // Open new frame for menu
-            CreateVehicleFrame detailsForBicycle = new CreateVehicleFrame("Bicycle");
-            this.dispose(); // Close current frame
+            new CreateVehicleFrame("Bicycle");
+            this.dispose();
         }
         if (e.getSource() == buttonCruise) {
-            // Open new frame for menu
-            CreateVehicleFrame detailsForCruise = new CreateVehicleFrame("CruiseShip");
-            this.dispose(); // Close current frame
+            new CreateVehicleFrame("CruiseShip");
+            this.dispose();
         }
         if (e.getSource() == buttonAmphibious) {
-            // Open new frame for menu
-            CreateVehicleFrame detailsForAmphibious = new CreateVehicleFrame("Amphibious");
+            new CreateVehicleFrame("Amphibious");
             this.dispose(); // Close current frame
         }
         if (e.getSource() == buttonElectricBicycle) {
-            // Open new frame for menu
-            CreateVehicleFrame detailsForElectricBicycle = new CreateVehicleFrame("ElectricBicycle");
+            new CreateVehicleFrame("ElectricBicycle");
             this.dispose(); // Close current frame
         }
         if (e.getSource() == buttonHybridPlane) {
-            // Open new frame for menu
-            CreateVehicleFrame detailsForHybridPlane = new CreateVehicleFrame("HybridPlane");
+            new CreateVehicleFrame("HybridPlane");
             this.dispose(); // Close current frame
         }
-
     }
 }
-
-

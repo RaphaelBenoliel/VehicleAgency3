@@ -106,10 +106,10 @@ public class Amphibious extends Vehicle implements ILandTransportation, ISeaTran
     @Override
     public String toString() {
         String result = this.getClass().getSimpleName() + ": " + super.toString()
-                + " It has " + wheels + " wheels, can move on " + roadType + "."
-                + " It can also move on water," + " Under " + getCountryFlag() + " flag, ";
+                + "\nIt has " + wheels + " wheels, can move on " + roadType + "."
+                + "\nIt can also move on water," + "\nUnder " + getCountryFlag() + " flag,\n";
         result += withWindDirection ? "with" : "against";
-        result += " the wind." + " Engine: " + getAverageFuelConsumption() + "L, "
+        result += " the wind." + "\nEngine: " + getAverageFuelConsumption() + "L, "
                 + "lifetime of " + getAverageEngineLife() + " years.";
         return result;
     }

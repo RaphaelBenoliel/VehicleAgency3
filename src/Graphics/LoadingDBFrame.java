@@ -1,15 +1,13 @@
 package Graphics;
 
-import jdk.swing.interop.LightweightFrameWrapper;
-
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.WindowEvent;
-public class Loading extends JFrame {
+public class LoadingDBFrame extends JFrame {
 
     JLabel label = new JLabel("Loading...");
 
-    public Loading(String update) {
+    public LoadingDBFrame(String update) {
 
         SwingUtilities.invokeLater(new Runnable() {
             @Override

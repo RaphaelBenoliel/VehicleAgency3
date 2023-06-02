@@ -34,11 +34,11 @@ public class CruiseShip extends Vehicle implements ISeaTransportation,Motorized,
      */
     @Override
     public String toString(){
-        String result =  this.getClass().getSimpleName() +": " + super.toString() + " Under " + countryFlag + " flag, ";
+        String result =  this.getClass().getSimpleName() +": " + super.toString() + "\nUnder " + countryFlag + " flag,\n";
         result += withWindDirection ? "with" : "against";
         return result + " the wind."
-                + " It has a " + getLicenseType() + " license."
-                + " Engine: " + getAverageFuelConsumption() + "L, "
+                + "\nIt has a " + getLicenseType() + " license."
+                + "\nEngine: " + getAverageFuelConsumption() + "L, "
                 + "lifetime of " + getAverageEngineLife() + " years.";
     }
 

@@ -9,16 +9,16 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.util.ArrayList;
 
-public class OnlySeeAllVehicle {
+public class InventoryFrame {
 
     //data members
-    private JFrame frame = new JFrame("See all vehicles");
+    private JFrame frame = new JFrame("Inventory");
     private JButton buttonMenu = new JButton();
 
     private ImageIcon imageVehicle;
 
     //constructor
-    public OnlySeeAllVehicle() {
+    public InventoryFrame() {
 
         int numberOfColumns = (int) Math.ceil(Math.sqrt(MainFrame.vehicleList.size()));
         int numberOfRows = (int) Math.ceil((double) MainFrame.vehicleList.size() / numberOfColumns);
@@ -39,22 +39,22 @@ public class OnlySeeAllVehicle {
             frame.add(label);
             labels.add(label);
         }
-        buttonMenu.setText("Menu");
-        buttonMenu.setVerticalTextPosition(AbstractButton.CENTER);
-        buttonMenu.setHorizontalTextPosition(AbstractButton.LEADING); //aka LEFT, for left-to-right locales
+        buttonMenu.setText("close");
+//        buttonMenu.setVerticalTextPosition(AbstractButton.CENTER);
+//        buttonMenu.setHorizontalTextPosition(AbstractButton.LEADING); //aka LEFT, for left-to-right locales
         buttonMenu.setMnemonic(KeyEvent.VK_I);
         buttonMenu.setPreferredSize(new Dimension(100, 50));
 
         JPanel PanelButton = new JPanel();
-        PanelButton.add(buttonMenu);
+        PanelButton.add(buttonMenu, BorderLayout.SOUTH);
 
         frame.add(PanelButton);
         //PanelButton.add(new ImageIcon("src/Graphics/Icons/Menu.png"));
 
 
         buttonMenu.addActionListener(e -> {
-//            frame.setVisible(false);
-            MenuFrame menuFrame =  MenuFrame.getInstance();
+            frame.setVisible(false);
+
         });
 
         frame.setVisible(true);
@@ -72,7 +72,7 @@ public class OnlySeeAllVehicle {
 //        System.out.println(vehicle.getPath());
 
         Image image = imageVehicle.getImage(); // transform it
-        image = image.getScaledInstance(250, 300, java.awt.Image.SCALE_SMOOTH); // scale it the smooth way
+        image = image.getScaledInstance(200, 200, java.awt.Image.SCALE_SMOOTH); // scale it the smooth way
 
         this.imageVehicle = new ImageIcon(image);  // transform it back
         imageLabel.setIcon(imageVehicle);
