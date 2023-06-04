@@ -10,7 +10,7 @@ import java.awt.event.MouseEvent;
 import java.util.ArrayList;
 
 public class InventoryFrame {
-
+    private static InventoryFrame instance;
     //data members
     private JFrame frame = new JFrame("Inventory");
     private JButton buttonMenu = new JButton();
@@ -18,7 +18,7 @@ public class InventoryFrame {
     private ImageIcon imageVehicle;
 
     //constructor
-    public InventoryFrame() {
+    private InventoryFrame() {
 
         int numberOfColumns = (int) Math.ceil(Math.sqrt(MainFrame.vehicleList.size()));
         int numberOfRows = (int) Math.ceil((double) MainFrame.vehicleList.size() / numberOfColumns);
@@ -29,7 +29,6 @@ public class InventoryFrame {
         frame.getContentPane().setLayout(new GridLayout(numberOfRows,numberOfColumns));
         frame.setBounds(0, 0, 800, 600);
         frame.setDefaultCloseOperation(JFrame.HIDE_ON_CLOSE);
-        frame.getContentPane().setBackground(Color.darkGray);
 
         buttonMenu.setPreferredSize(new Dimension(50, 50));
 
@@ -60,7 +59,16 @@ public class InventoryFrame {
         frame.setVisible(true);
     }
 
-
+    public static InventoryFrame getInstance() {
+        if (instance == null) {
+            instance = new InventoryFrame();
+        }
+        return instance;
+    }
+    public static void resetInstance() {
+        instance.frame.dispose();
+        instance = null;
+    }
     public JLabel VehiclePanels(Vehicle vehicle) {
         JLabel panel = new JLabel();
         panel.setLayout(new GridLayout(1, 1)); // 2 rows

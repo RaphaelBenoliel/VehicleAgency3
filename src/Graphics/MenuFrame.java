@@ -103,15 +103,26 @@ public class MenuFrame extends JFrame implements ActionListener {
            for (Object vehicle : MainFrame.vehicleList) {
                 if (vehicle instanceof ISeaTransportation) {
                     flag = true;
-                    FlagsFrame flagsFrame = new FlagsFrame();
+                    if (FlagsFrame.getInstance() == null) {
+                        FlagsFrame.getInstance();
+                    }
+                    else {
+                        FlagsFrame.resetInstance();
+                        FlagsFrame.getInstance();
+                    }
                 }
             }
            if (!flag) JOptionPane.showMessageDialog(null, "There is no sea vehicle in the agency!", "Error", JOptionPane.ERROR_MESSAGE);
 //            this.dispose();
         }
         if (source == inventoryButton) {
-            InventoryFrame allVehicles = new InventoryFrame();
-//            this.dispose();
+            if (InventoryFrame.getInstance() == null) {
+                InventoryFrame.getInstance();
+            }
+            else {
+                InventoryFrame.resetInstance();
+                InventoryFrame.getInstance();
+            }
         }
         if (source == exitButton) {
             if(TestManager.isAnyVehicleInTest() || BuyManager.isAnyVehicleInBuyProgress()){

@@ -10,20 +10,20 @@ import java.awt.event.*;
 import java.util.Random;
 
 public class FlagsFrame extends JFrame implements ActionListener {
+    private static FlagsFrame instance;
 
         private JButton[] flagButtons;
         private String[] flagNames = {"Israel", "USA", "german", "Greece", "somalia", "pirate", "italy"};
         private ImageIcon[] flagImages;
 
-        public FlagsFrame() {
-            super("Flags");
+        private FlagsFrame() {
+            super("Choose a Flag");
             setSize(1000, 500);
             setDefaultCloseOperation(JFrame.HIDE_ON_CLOSE);
 
             JPanel panel = new JPanel();
             getContentPane().add(panel);
             panel.setLayout(new GridLayout(2, 4));
-
 
             // Load the flag images
             flagImages = new ImageIcon[7];
@@ -48,13 +48,20 @@ public class FlagsFrame extends JFrame implements ActionListener {
                 panel.add(flagButtons[i]);
             }
 
-
             // Add the panel to the frame
             setContentPane(panel);
-
             setVisible(true);
         }
-
+    public static FlagsFrame getInstance() {
+        if (instance == null) {
+            instance = new FlagsFrame();
+        }
+        return instance;
+    }
+    public static void resetInstance() {
+        instance.dispose();
+        instance = null;
+    }
         public void actionPerformed(ActionEvent e) {
             Object source = e.getSource();
             // Get the name of the selected flag
@@ -68,7 +75,7 @@ public class FlagsFrame extends JFrame implements ActionListener {
                 changeFlag("USA");
             } //UnitedState
             if (source == flagButtons[2]){
-                changeFlag("Germany");
+                changeFlag("German");
             } //Germany
             if (source == flagButtons[3]){
                 changeFlag("Greece");
@@ -80,16 +87,14 @@ public class FlagsFrame extends JFrame implements ActionListener {
                 changeFlag("Pirate");
             } //JollyRoger
             if (source == flagButtons[6]){
-                changeFlag("Italia");
+                changeFlag("Italy");
             } //Italia
 
             this.dispose();
             MenuFrame frame = MenuFrame.getInstance();
-
         }
 
             public void changeFlag(String flagName) {
-
                 Thread t = new Thread(() -> {
                     try {
                         synchronized (MainFrame.vehicleList) {
@@ -114,7 +119,4 @@ public class FlagsFrame extends JFrame implements ActionListener {
                 });
                 t.start();
             }
-
-
     }
-

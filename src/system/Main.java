@@ -1,14 +1,15 @@
 package system;
 
+import Graphics.MainFrame;
+
 /**
  * Main class for the vehicle agency.
  */
 public class Main {
+        public static void main(String[] args) {
 
-    //    public static void main(String[] args) {
-//        new VehicleAgencyGUI();
-//    }// End of method main
-
+            new MainFrame();
+    }// End of method main
 
 }//End of class Main
 

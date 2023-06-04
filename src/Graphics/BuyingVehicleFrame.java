@@ -11,19 +11,15 @@ import javax.swing.*;
 public class BuyingVehicleFrame {
     private static BuyingVehicleFrame instance;
     private ImageIcon imageVehicle;
+    private final JFrame frame;
 
-    private JFrame frame;
 
-
-    //constructor
     private BuyingVehicleFrame() {
 
         frame = new JFrame("Buy Vehicle");
         frame.setBounds(100, 100, 1000, 800);
         frame.setDefaultCloseOperation(JFrame.HIDE_ON_CLOSE);
-        frame.getContentPane().setLayout(new GridLayout(0, 3, 10, 10)); // 3 columns
-        frame.getContentPane().setBackground(Color.darkGray);
-
+        frame.getContentPane().setLayout(new GridLayout(0, 3, 5, 5)); // 3 columns
 
         ArrayList<JLabel> labels = new ArrayList<>();
         for (Vehicle i : MainFrame.vehicleList) {
@@ -47,22 +43,22 @@ public class BuyingVehicleFrame {
     }
     public JLabel VehiclePanels(Vehicle vehicle) {
         JLabel panel = new JLabel();
-        panel.setLayout(new GridLayout(2, 1)); // 2 rows
+        panel.setLayout(new GridLayout(2, 1));
+
         // Add image
         JLabel imageLabel = new JLabel();
-        imageLabel.setPreferredSize(new Dimension(200, 200));
-
+//        imageLabel.setPreferredSize(new Dimension(10, 10));
         imageVehicle = new ImageIcon(vehicle.getImage().getImage());
-//        System.out.println(vehicle.getPath());
-
         Image image = imageVehicle.getImage(); // transform it
-        image = image.getScaledInstance(200, 200, java.awt.Image.SCALE_SMOOTH); // scale it the smooth way
-
-        this.imageVehicle = new ImageIcon(image);  // transform it back
+        image = image.getScaledInstance(150, 150, java.awt.Image.SCALE_SMOOTH);
+        this.imageVehicle = new ImageIcon(image);
         imageLabel.setIcon(imageVehicle);
         panel.add(imageLabel);
+
         // Add details
         JTextArea detailsArea = new JTextArea(vehicle.toString());
+        detailsArea.setBackground(Color.darkGray);
+        detailsArea.setForeground(Color.white);
         detailsArea.setEditable(false);
         panel.add(detailsArea);
 
@@ -90,7 +86,6 @@ public class BuyingVehicleFrame {
                 }
             }
         });
-
         return panel;
     }
 

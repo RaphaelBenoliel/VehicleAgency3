@@ -5,10 +5,10 @@ import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
 public class TestManager {
-    private static final Map<Vehicle, Boolean> vehiclesInTest = new ConcurrentHashMap<>();
+    private static final Map<Vehicle, Boolean> isInTest = new ConcurrentHashMap<>();
 
     public static boolean isVehicleInTest(Vehicle vehicle) {
-        return vehiclesInTest.containsKey(vehicle);
+        return isInTest.containsKey(vehicle);
     }
 
     public static void startTest(Vehicle vehicle, double distance) {
@@ -16,7 +16,7 @@ public class TestManager {
             throw new IllegalStateException("A test is already in progress for this vehicle.");
         }
 
-        vehiclesInTest.put(vehicle, true);
+        isInTest.put(vehicle, true);
 
         Thread testThread = new Thread(() -> {
             try {
@@ -24,13 +24,12 @@ public class TestManager {
             } catch (InterruptedException e) {
                 e.printStackTrace();
             } finally {
-                vehiclesInTest.remove(vehicle);
+                isInTest.remove(vehicle);
             }
         });
         testThread.start();
     }
-
     public static boolean isAnyVehicleInTest() {
-        return !vehiclesInTest.isEmpty();
+        return !isInTest.isEmpty();
     }
 }

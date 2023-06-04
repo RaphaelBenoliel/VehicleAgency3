@@ -12,12 +12,8 @@ import vehicle.*;
 public class MainFrame extends JFrame implements ActionListener {
 
     //data members
-    static ArrayList<Vehicle> vehicleList; //np modifier (only for package gui)
-    public static void main(String[] args) {
+    static final ArrayList<Vehicle> vehicleList = new ArrayList<Vehicle>(); //np modifier (only for package gui)
 
-        vehicleList = new ArrayList<Vehicle>();
-        new MainFrame();
-    }
 
     //data members
 
@@ -38,7 +34,6 @@ public class MainFrame extends JFrame implements ActionListener {
     public MainFrame() {
         super("Choose a Vehicle to create");
         this.setSize(800, 600);
-
         JPanel panel = new JPanel();
         panel.setLayout(new GridLayout(2, 5));
         getContentPane().add(panel);

@@ -18,7 +18,7 @@ public class TestingVehicleFrame {
         frame = new JFrame("Take vehicle for test");
         frame.setBounds(100, 100, 1000, 800);
         frame.setDefaultCloseOperation(JFrame.HIDE_ON_CLOSE);
-        frame.getContentPane().setLayout(new GridLayout(0, 3, 10, 10));
+        frame.getContentPane().setLayout(new GridLayout(0, 3, 5, 5));
         frame.getContentPane().setBackground(Color.darkGray);
 
         comboBox = new JComboBox<>();
@@ -54,7 +54,7 @@ public class TestingVehicleFrame {
 
         imageVehicle = new ImageIcon(vehicle.getImage().getImage());
         Image image = imageVehicle.getImage();
-        image = image.getScaledInstance(200, 200, java.awt.Image.SCALE_SMOOTH);
+        image = image.getScaledInstance(150, 150, java.awt.Image.SCALE_SMOOTH);
 
         this.imageVehicle = new ImageIcon(image);
         imageLabel.setIcon(imageVehicle);
