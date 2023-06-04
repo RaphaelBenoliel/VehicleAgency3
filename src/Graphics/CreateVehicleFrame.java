@@ -5,6 +5,8 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
@@ -31,19 +33,58 @@ public class CreateVehicleFrame extends JFrame implements ActionListener {
         setTitle(vehicleType + " Details"); //title frame
         setSize(500, 600); //size frame
         setLocationRelativeTo(null); //center the frame
-        setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+//        setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         setVisible(true); //show frame
-
+        addWindowListener(new WindowAdapter() {
+            @Override
+            public void windowClosing(WindowEvent e) {
+                int option = JOptionPane.showOptionDialog(null, "Are you sure you want to cancel?", "Confirmation", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE, null, null, null);
+                if (option == JOptionPane.YES_OPTION) {
+                    JOptionPane.showMessageDialog(null, "Create a vehicle canceled!", "Canceled", JOptionPane.ERROR_MESSAGE);
+                    dispose();
+                    new MainFrame();
+                } else {
+                    // User clicked No, do nothing
+                    setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
+                }
+            }
+        });
         //images
         ImageIcon iconJeep = new ImageIcon("src/ImgSource/jeep3.png");
+        Image img = iconJeep.getImage().getScaledInstance(200, 200, java.awt.Image.SCALE_SMOOTH);
+        iconJeep = new ImageIcon(img);
+
         ImageIcon iconFrigate = new ImageIcon("src/ImgSource/frigate.png");
+        img = iconFrigate.getImage().getScaledInstance(200, 200, java.awt.Image.SCALE_SMOOTH);
+        iconFrigate = new ImageIcon(img);
+
         ImageIcon iconGameGlider = new ImageIcon("src/ImgSource/gameGlider.png");
+        img = iconGameGlider.getImage().getScaledInstance(200, 200, java.awt.Image.SCALE_SMOOTH);
+        iconGameGlider = new ImageIcon(img);
+
         ImageIcon iconSpyGlider = new ImageIcon("src/ImgSource/spyGlider.png");
+        img = iconSpyGlider.getImage().getScaledInstance(200, 200, java.awt.Image.SCALE_SMOOTH);
+        iconSpyGlider = new ImageIcon(img);
+
         ImageIcon iconBicycle = new ImageIcon("src/ImgSource/bicycle1.png");
+        img = iconBicycle.getImage().getScaledInstance(200, 200, java.awt.Image.SCALE_SMOOTH);
+        iconBicycle = new ImageIcon(img);
+
         ImageIcon iconCruise = new ImageIcon("src/ImgSource/cruise.png");
+        img = iconCruise.getImage().getScaledInstance(200, 200, java.awt.Image.SCALE_SMOOTH);
+        iconCruise = new ImageIcon(img);
+
         ImageIcon iconAmphibious = new ImageIcon("src/ImgSource/amphibious.png");
+        img = iconAmphibious.getImage().getScaledInstance(200, 200, java.awt.Image.SCALE_SMOOTH);
+        iconAmphibious = new ImageIcon(img);
+
         ImageIcon iconElectricBicycle = new ImageIcon("src/ImgSource/electricBike.png");
+        img = iconElectricBicycle.getImage().getScaledInstance(200, 200, java.awt.Image.SCALE_SMOOTH);
+        iconElectricBicycle = new ImageIcon(img);
+
         ImageIcon iconHybridPlane = new ImageIcon("src/ImgSource/hybridPlane.png");
+        img = iconHybridPlane.getImage().getScaledInstance(200, 200, java.awt.Image.SCALE_SMOOTH);
+        iconHybridPlane = new ImageIcon(img);
 
         //create panel
         JPanel panel = new JPanel();
@@ -72,10 +113,7 @@ public class CreateVehicleFrame extends JFrame implements ActionListener {
                 panel.add(panelMaxPassenger(50000));
                 panel.add(panelWithDirection());
             }
-            case "GameGlider" -> {
-                panel.add(new JLabel(iconGameGlider));
-                //no button needed for him
-            }
+            case "GameGlider" -> panel.add(new JLabel(iconGameGlider));
             case "SpyGlider" -> {
                 panel.add(new JLabel(iconSpyGlider));
                 panel.add(panelSourceOfEnergy());
@@ -255,24 +293,6 @@ public class CreateVehicleFrame extends JFrame implements ActionListener {
     @Override
     public void actionPerformed(ActionEvent e) {
         Object source = e.getSource();
-//        if (source == radio1){
-//            imageLabel.setIcon(image1);
-//            path = "images/" + vehicleType + "Images/" + vehicleType + "1.jpg";
-//        }
-//        if (source == radio2){
-//            imageLabel.setIcon(image2);
-//            path = "images/" + vehicleType + "Images/" + vehicleType + "2.jpg";
-//        }
-//        if (source == radio3){
-//            imageLabel.setIcon(image3);
-//            path = "images/" + vehicleType + "Images/" + vehicleType + "3.jpg";
-//        }
-//        if (source == validateButton){
-//            modelName = modelNameField.getText();
-//        }
-//        if (source == comboBoxSpeed){
-//            int selectValue = (Integer) comboBoxSpeed.getSelectedItem();
-//        }
         if(source == confirmButton){
             switch (vehicleType) {
                 case "Jeep": {
@@ -360,10 +380,8 @@ public class CreateVehicleFrame extends JFrame implements ActionListener {
                 }
 
             }
-
-            // essaie du bouton confirm
             this.dispose();
-            MainFrame frameCars = new MainFrame();
+            new MainFrame();
         }
     }
 

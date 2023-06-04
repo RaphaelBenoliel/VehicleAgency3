@@ -12,7 +12,7 @@ import vehicle.*;
 public class MainFrame extends JFrame implements ActionListener {
 
     //data members
-    static final ArrayList<Vehicle> vehicleList = new ArrayList<Vehicle>(); //np modifier (only for package gui)
+    static final ArrayList<Vehicle> vehicleList = new ArrayList<Vehicle>();
 
 
     //data members
@@ -38,20 +38,50 @@ public class MainFrame extends JFrame implements ActionListener {
         panel.setLayout(new GridLayout(2, 5));
         getContentPane().add(panel);
         //all images icons
+
         ImageIcon iconJeep = new ImageIcon("src/ImgSource/jeep3.png");
+        Image img = iconJeep.getImage().getScaledInstance(150, 150, java.awt.Image.SCALE_SMOOTH);
+        iconJeep = new ImageIcon(img);
+
         ImageIcon iconFrigate = new ImageIcon("src/ImgSource/frigate.png");
+        img = iconFrigate.getImage().getScaledInstance(150, 150, java.awt.Image.SCALE_SMOOTH);
+        iconFrigate = new ImageIcon(img);
+
         ImageIcon iconGameGlider = new ImageIcon("src/ImgSource/gameGlider.png");
+        img = iconGameGlider.getImage().getScaledInstance(150, 150, java.awt.Image.SCALE_SMOOTH);
+        iconGameGlider = new ImageIcon(img);
+
         ImageIcon iconSpyGlider = new ImageIcon("src/ImgSource/spyGlider.png");
+        img = iconSpyGlider.getImage().getScaledInstance(150, 150, java.awt.Image.SCALE_SMOOTH);
+        iconSpyGlider = new ImageIcon(img);
+
         ImageIcon iconBicycle = new ImageIcon("src/ImgSource/bicycle1.png");
+        img = iconBicycle.getImage().getScaledInstance(150, 150, java.awt.Image.SCALE_SMOOTH);
+        iconBicycle = new ImageIcon(img);
+
         ImageIcon iconCruise = new ImageIcon("src/ImgSource/cruise.png");
+        img = iconCruise.getImage().getScaledInstance(150, 150, java.awt.Image.SCALE_SMOOTH);
+        iconCruise = new ImageIcon(img);
+
         ImageIcon iconAmphibious = new ImageIcon("src/ImgSource/amphibious.png");
+        img = iconAmphibious.getImage().getScaledInstance(150, 150, java.awt.Image.SCALE_SMOOTH);
+        iconAmphibious = new ImageIcon(img);
+
         ImageIcon iconElectricBicycle = new ImageIcon("src/ImgSource/electricBike.png");
+        img = iconElectricBicycle.getImage().getScaledInstance(150, 150, java.awt.Image.SCALE_SMOOTH);
+        iconElectricBicycle = new ImageIcon(img);
+
         ImageIcon iconHybridPlane = new ImageIcon("src/ImgSource/hybridPlane.png");
+        img = iconHybridPlane.getImage().getScaledInstance(150, 150, java.awt.Image.SCALE_SMOOTH);
+        iconHybridPlane = new ImageIcon(img);
+
         ImageIcon iconMenu = new ImageIcon("src/ImgSource/menu.png");
+        img = iconMenu.getImage().getScaledInstance(160, 250, java.awt.Image.SCALE_SMOOTH);
+        iconMenu = new ImageIcon(img);
 
         //all labels buttons
         JLabel labelJeep = new JLabel("Jeep");
-        labelJeep.setFont(labelJeep.getFont().deriveFont(Font.BOLD, 16)); // Set the font to bold and size 24
+        labelJeep.setFont(labelJeep.getFont().deriveFont(Font.BOLD, 16));
 //        labelJeep.setHorizontalAlignment(SwingConstants.CENTER);
         JLabel labelFrigate = new JLabel("Frigate");
         labelFrigate.setFont(labelJeep.getFont().deriveFont(Font.BOLD, 16));
@@ -89,7 +119,7 @@ public class MainFrame extends JFrame implements ActionListener {
             @Override
             public void windowClosing(WindowEvent e) {
                 if (MainFrame.vehicleList.size() == 0) {
-                    JOptionPane.showMessageDialog(null, "There is no vehicle in the agency!");
+                    JOptionPane.showMessageDialog(null, "There is no vehicle in the agency!", "Error", JOptionPane.ERROR_MESSAGE);
                 } else {
                     //open menu frame and close this frame
                     MenuFrame.getInstance();
@@ -125,7 +155,7 @@ public class MainFrame extends JFrame implements ActionListener {
     public void actionPerformed(ActionEvent e) {
         if (e.getSource() == buttonClose){
             if (MainFrame.vehicleList.size() == 0) {
-                JOptionPane.showMessageDialog(null, "There is no vehicle in the agency!");
+                JOptionPane.showMessageDialog(null, "There is no vehicle in the agency!", "Error", JOptionPane.ERROR_MESSAGE);
             } else {
                 // Open new frame for menu singleton
                 MenuFrame.getInstance();

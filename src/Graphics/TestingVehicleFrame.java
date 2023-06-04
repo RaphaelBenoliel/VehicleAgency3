@@ -12,7 +12,7 @@ public class TestingVehicleFrame {
     private static TestingVehicleFrame instance;
     private JFrame frame;
     private ImageIcon imageVehicle;
-    private JComboBox<Double> comboBox;
+    private final JComboBox<Double> comboBox;
 
     private TestingVehicleFrame() {
         frame = new JFrame("Take vehicle for test");
