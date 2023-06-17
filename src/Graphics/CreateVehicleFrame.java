@@ -349,7 +349,10 @@ public class CreateVehicleFrame extends JFrame implements ActionListener {
                         img = new ImageIcon("src/ImgSource/bicycle1.png");
                         img = new ImageIcon(img.getImage().getScaledInstance(180, 170, Image.SCALE_DEFAULT));
                     }
-                    update(new Bicycle(modelNameField.getText(), (Integer) comboBoxPassengers.getSelectedItem(),(Integer) comboBoxSpeed.getSelectedItem(),  (String)comboBoxKindOfLand.getSelectedItem() ,img));
+//                    update(new Bicycle(modelNameField.getText(), (Integer) comboBoxPassengers.getSelectedItem(),(Integer) comboBoxSpeed.getSelectedItem(),  (String)comboBoxKindOfLand.getSelectedItem() ,img));
+                    Bicycle bicycle = (Bicycle) vehicleFactory.create("Bicycle", modelNameField.getText(), (Integer) comboBoxSpeed.getSelectedItem(),  (Integer) comboBoxPassengers.getSelectedItem(),img);
+                    bicycle.setRoadType((String)comboBoxKindOfLand.getSelectedItem());
+                    update(bicycle);
                     break;
                 }
                 case "CruiseShip": {
@@ -358,7 +361,10 @@ public class CreateVehicleFrame extends JFrame implements ActionListener {
                         img = new ImageIcon("src/ImgSource/cruise.png");
                         img = new ImageIcon(img.getImage().getScaledInstance(180, 170, Image.SCALE_DEFAULT));
                     }
-                    update(new CruiseShip(modelNameField.getText(), (Integer) comboBoxPassengers.getSelectedItem(),(Integer) comboBoxSpeed.getSelectedItem(), (String) comboBoxFlag.getSelectedItem() , img));
+//                    update(new CruiseShip(modelNameField.getText(), (Integer) comboBoxPassengers.getSelectedItem(),(Integer) comboBoxSpeed.getSelectedItem(), (String) comboBoxFlag.getSelectedItem() , img));
+                    CruiseShip cruiseShip = (CruiseShip) vehicleFactory.create("CruiseShip", modelNameField.getText(), (Integer) comboBoxSpeed.getSelectedItem(),  (Integer) comboBoxPassengers.getSelectedItem(),img);
+                    cruiseShip.setCountryFlag((String) comboBoxFlag.getSelectedItem());
+                    update(cruiseShip);
                     break;
                 }
                 case "Amphibious", "HybridPlane": {
@@ -368,16 +374,30 @@ public class CreateVehicleFrame extends JFrame implements ActionListener {
                             img = new ImageIcon("src/ImgSource/amphibious.png");
                             img = new ImageIcon(img.getImage().getScaledInstance(180, 170, Image.SCALE_DEFAULT));
                         }
-                        update(new Amphibious(modelNameField.getText(), (Integer) comboBoxPassengers.getSelectedItem(),
-                                (Integer) comboBoxSpeed.getSelectedItem(), (Integer) comboBoxWheels.getSelectedItem(), withWindButton.isSelected(), (String) comboBoxFlag.getSelectedItem(), (Integer) comboBoxFuel.getSelectedItem(),
-                                (Integer) comboBoxLifeTime.getSelectedItem(), img));
+//                        update(new Amphibious(modelNameField.getText(), (Integer) comboBoxPassengers.getSelectedItem(),
+//                                (Integer) comboBoxSpeed.getSelectedItem(), (Integer) comboBoxWheels.getSelectedItem(), withWindButton.isSelected(), (String) comboBoxFlag.getSelectedItem(), (Integer) comboBoxFuel.getSelectedItem(),
+//                                (Integer) comboBoxLifeTime.getSelectedItem(), img));
+                        Amphibious amphibious = (Amphibious) vehicleFactory.create("Amphibious", modelNameField.getText(), (Integer) comboBoxSpeed.getSelectedItem(),  (Integer) comboBoxPassengers.getSelectedItem(),img);
+                        amphibious.setWheels((Integer) comboBoxWheels.getSelectedItem());
+                        amphibious.setCountryFlag((String) comboBoxFlag.getSelectedItem());
+                        amphibious.setAverageFuelConsumption((Integer) comboBoxFuel.getSelectedItem());
+                        amphibious.setAverageEngineLife((Integer) comboBoxLifeTime.getSelectedItem());
+                        amphibious.setWithWindDirection(withWindButton.isSelected());
+                        update(amphibious);
                     } else {
                         ImageIcon img = getImageFromUser();
                         if (img == null) {
                             img = new ImageIcon("src/ImgSource/hybridPlane.png");
                             img = new ImageIcon(img.getImage().getScaledInstance(180, 170, Image.SCALE_DEFAULT));
                         }
-                        update(new HybridPlane(modelNameField.getText(), (Integer) comboBoxPassengers.getSelectedItem(),(Integer) comboBoxSpeed.getSelectedItem(), (Integer) comboBoxWheels.getSelectedItem(), withWindButton.isSelected(), (String) comboBoxFlag.getSelectedItem(),(Integer) comboBoxFuel.getSelectedItem(), (Integer) comboBoxLifeTime.getSelectedItem(),  img));
+//                        update(new HybridPlane(modelNameField.getText(), (Integer) comboBoxPassengers.getSelectedItem(),(Integer) comboBoxSpeed.getSelectedItem(), (Integer) comboBoxWheels.getSelectedItem(), withWindButton.isSelected(), (String) comboBoxFlag.getSelectedItem(),(Integer) comboBoxFuel.getSelectedItem(), (Integer) comboBoxLifeTime.getSelectedItem(),  img));
+                        HybridPlane hybridPlane = (HybridPlane) vehicleFactory.create("HybridPlane", modelNameField.getText(), (Integer) comboBoxSpeed.getSelectedItem(),  (Integer) comboBoxPassengers.getSelectedItem(),img);
+                        hybridPlane.setWheels((Integer) comboBoxWheels.getSelectedItem());
+                        hybridPlane.setCountryFlag((String) comboBoxFlag.getSelectedItem());
+                        hybridPlane.setAverageFuelConsumption((Integer) comboBoxFuel.getSelectedItem());
+                        hybridPlane.setAverageEngineLife((Integer) comboBoxLifeTime.getSelectedItem());
+                        hybridPlane.setWithWindDirection(withWindButton.isSelected());
+                        update(hybridPlane);
                     }
                     break;
                 }
@@ -387,7 +407,11 @@ public class CreateVehicleFrame extends JFrame implements ActionListener {
                         img = new ImageIcon("src/ImgSource/electricBike.png");
                         img = new ImageIcon(img.getImage().getScaledInstance(180, 170, Image.SCALE_DEFAULT));
                     }
-                    update(new ElectricBicycle(modelNameField.getText(),(Integer) comboBoxPassengers.getSelectedItem(), (Integer) comboBoxSpeed.getSelectedItem(), (String)comboBoxKindOfLand.getSelectedItem(), (Integer) comboBoxLifeTime.getSelectedItem(), img));
+//                    update(new ElectricBicycle(modelNameField.getText(),(Integer) comboBoxPassengers.getSelectedItem(), (Integer) comboBoxSpeed.getSelectedItem(), (String)comboBoxKindOfLand.getSelectedItem(), (Integer) comboBoxLifeTime.getSelectedItem(), img));
+                    ElectricBicycle electricBicycle = (ElectricBicycle) vehicleFactory.create("ElectricBicycle", modelNameField.getText(), (Integer) comboBoxSpeed.getSelectedItem(),  (Integer) comboBoxPassengers.getSelectedItem(),img);
+                    electricBicycle.setRoadType((String)comboBoxKindOfLand.getSelectedItem());
+                    electricBicycle.setAverageEngineLife((Integer) comboBoxLifeTime.getSelectedItem());
+                    update(electricBicycle);
                     break;
                 }
             }
