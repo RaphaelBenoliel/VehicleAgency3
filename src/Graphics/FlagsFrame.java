@@ -18,7 +18,7 @@ public class FlagsFrame extends JFrame implements ActionListener {
 
         private FlagsFrame() {
             super("Choose a Flag");
-            setSize(1000, 500);
+            setSize(1000, 600);
             setDefaultCloseOperation(JFrame.HIDE_ON_CLOSE);
 
             JPanel panel = new JPanel();
@@ -30,7 +30,7 @@ public class FlagsFrame extends JFrame implements ActionListener {
             for (int i = 0; i < 7; i++) {
                 Image img = new ImageIcon("src/ImgSource/" + flagNames[i] + ".png").getImage();
                 // Resize the image to your desired dimensions
-                Image resizedImg = img.getScaledInstance(300, 150, Image.SCALE_SMOOTH);
+                Image resizedImg = img.getScaledInstance(200, 200, Image.SCALE_SMOOTH);
                 flagImages[i] = new ImageIcon(resizedImg);
             }
 
@@ -47,7 +47,6 @@ public class FlagsFrame extends JFrame implements ActionListener {
             for (int i = 0; i < 7; i++) {
                 panel.add(flagButtons[i]);
             }
-
             // Add the panel to the frame
             setContentPane(panel);
             setVisible(true);
@@ -97,12 +96,12 @@ public class FlagsFrame extends JFrame implements ActionListener {
             public void changeFlag(String flagName) {
                 Thread t = new Thread(() -> {
                     try {
-                        synchronized (MainFrame.vehicleList) {
+                        synchronized (VehicleMenuFrame.vehicleList) {
                             Random rand = new Random();
                             int randomNum;
                             randomNum = 3000 + rand.nextInt((8000 - 3000) + 1);
                             LoadingDBFrame loadingDBFrame = new LoadingDBFrame("Updating Database...");
-                            for (Vehicle i : MainFrame.vehicleList) {
+                            for (Vehicle i : VehicleMenuFrame.vehicleList) {
                                 if (i instanceof ISeaTransportation)
                                     ((ISeaTransportation) i).setCountryFlag(flagName);
                                 else if (i instanceof Amphibious)

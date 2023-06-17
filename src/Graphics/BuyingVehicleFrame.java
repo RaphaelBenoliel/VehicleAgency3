@@ -22,7 +22,7 @@ public class BuyingVehicleFrame {
         frame.getContentPane().setLayout(new GridLayout(0, 3, 5, 5)); // 3 columns
 
         ArrayList<JLabel> labels = new ArrayList<>();
-        for (Vehicle i : MainFrame.vehicleList) {
+        for (Vehicle i : VehicleMenuFrame.vehicleList) {
             JLabel label = VehiclePanels(i);
             frame.getContentPane().add(label);
             labels.add(label);
@@ -92,12 +92,12 @@ public class BuyingVehicleFrame {
     public void update(Vehicle vehicle) {
         Thread t = new Thread(() -> {
             try {
-                synchronized (MainFrame.vehicleList) {
+                synchronized (VehicleMenuFrame.vehicleList) {
                     Random rand = new Random();
                     int randomNum;
                     randomNum = 3000 + rand.nextInt((8000 - 3000) + 1);
                     LoadingDBFrame loadingDBFrame = new LoadingDBFrame("Updating Database...");
-                    MainFrame.vehicleList.remove(vehicle);
+                    VehicleMenuFrame.vehicleList.remove(vehicle);
                     Thread.sleep(randomNum);
                     loadingDBFrame.setText("Update Done!");
                     Thread.sleep(700);
@@ -113,7 +113,7 @@ public class BuyingVehicleFrame {
     public void update() {
         Thread t = new Thread(() -> {
             try {
-                synchronized (MainFrame.vehicleList) {
+                synchronized (VehicleMenuFrame.vehicleList) {
                     Random rand = new Random();
                     int randomNum;
                     randomNum = 3000 + rand.nextInt((10000 - 5000) + 1);

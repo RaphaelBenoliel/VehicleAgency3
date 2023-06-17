@@ -28,7 +28,7 @@ public class TestingVehicleFrame {
         comboBox.setSelectedItem("choose a distance");
 
         ArrayList<JLabel> labels = new ArrayList<>();
-        for (Vehicle vehicle : MainFrame.vehicleList) {
+        for (Vehicle vehicle : VehicleMenuFrame.vehicleList) {
             JLabel label = createVehiclePanel(vehicle);
             frame.getContentPane().add(label);
             labels.add(label);

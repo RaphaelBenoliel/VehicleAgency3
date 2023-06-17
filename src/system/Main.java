@@ -1,6 +1,6 @@
 package system;
 
-import Graphics.MainFrame;
+import Graphics.VehicleMenuFrame;
 
 /**
  * Main class for the vehicle agency.
@@ -8,7 +8,7 @@ import Graphics.MainFrame;
 public class Main {
         public static void main(String[] args) {
 
-            new MainFrame();
+            new VehicleMenuFrame();
     }// End of method main
 
 }//End of class Main

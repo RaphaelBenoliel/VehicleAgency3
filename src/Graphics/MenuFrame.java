@@ -8,9 +8,8 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.Random;
 
-import static java.lang.System.exit;
-
 public class MenuFrame extends JFrame implements ActionListener {
+
     private static MenuFrame instance;
     private final JButton addVehicleButton = new JButton("Add Vehicle");
     private final JButton buyVehicleButton = new JButton("Buy Vehicle");
@@ -19,7 +18,6 @@ public class MenuFrame extends JFrame implements ActionListener {
     private final JButton changeFlagButton = new JButton("Change flag");
     private final JButton inventoryButton = new JButton("Inventory");
     private final JButton exitButton = new JButton("Quit");
-
     private final Object lock = new Object();
 
 
@@ -30,8 +28,7 @@ public class MenuFrame extends JFrame implements ActionListener {
 
         JPanel panel = new JPanel(new GridLayout(7, 1));
         getContentPane().add(panel);
-
-
+        
         //adding buttons to panel
         panel.add(addVehicleButton);
         panel.add(buyVehicleButton);
@@ -42,6 +39,7 @@ public class MenuFrame extends JFrame implements ActionListener {
         panel.add(exitButton);
 
         //change size and font of buttons
+
         addVehicleButton.setFont(new Font("Arial", Font.BOLD, 20));
         buyVehicleButton.setFont(new Font("Arial", Font.BOLD, 20));
         takeVehicleButton.setFont(new Font("Arial", Font.BOLD, 20));
@@ -59,7 +57,6 @@ public class MenuFrame extends JFrame implements ActionListener {
         inventoryButton.addActionListener(this);
         exitButton.addActionListener(this);
 
-
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         this.setVisible(true);
     }
@@ -74,7 +71,7 @@ public class MenuFrame extends JFrame implements ActionListener {
         Object source = e.getSource();
         boolean flag = false;
         if (source == addVehicleButton) {
-            new MainFrame();
+            new VehicleMenuFrame();
 
         }
         if (source == buyVehicleButton) {
@@ -100,7 +97,7 @@ public class MenuFrame extends JFrame implements ActionListener {
             Reset();
         }
         if (source == changeFlagButton) {
-           for (Object vehicle : MainFrame.vehicleList) {
+           for (Object vehicle : VehicleMenuFrame.vehicleList) {
                 if (vehicle instanceof ISeaTransportation) {
                     flag = true;
                     if (FlagsFrame.getInstance() == null) {
@@ -144,12 +141,12 @@ public class MenuFrame extends JFrame implements ActionListener {
             Thread t = new Thread(new Runnable() {
                 public void run() {
                     try {
-                        synchronized (MainFrame.vehicleList) {
+                        synchronized (VehicleMenuFrame.vehicleList) {
                             Random rand = new Random();
                             int randomNum;
                             randomNum = 3000 + rand.nextInt((8000 - 3000) + 1);
                             LoadingDBFrame loadingDBFrame = new LoadingDBFrame("Updating Database...");
-                            for (Vehicle i : MainFrame.vehicleList) {
+                            for (Vehicle i : VehicleMenuFrame.vehicleList) {
                                 i.setDistanceTraveled(0);
                             }
                             Thread.sleep(randomNum);

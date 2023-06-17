@@ -9,15 +9,9 @@ import java.awt.event.WindowEvent;
 import java.util.ArrayList;
 import vehicle.*;
 
-public class MainFrame extends JFrame implements ActionListener {
+public class VehicleMenuFrame extends JFrame implements ActionListener {
 
-    //data members
     static final ArrayList<Vehicle> vehicleList = new ArrayList<Vehicle>();
-
-
-    //data members
-
-    //all Buttons
     private final JButton buttonJeep = new JButton();
     private final JButton buttonFrigate = new JButton();
     private final JButton buttonGameGlider = new JButton();
@@ -29,10 +23,11 @@ public class MainFrame extends JFrame implements ActionListener {
     private final JButton buttonHybridPlane = new JButton();
     private final JButton buttonClose = new JButton();
 
-
-    //constructor
-    public MainFrame() {
-        super("Choose a Vehicle to create");
+    /**
+     * VehicleMenuFrame constructor that creates a frame with 10 buttons for each vehicle type.
+     */
+    public VehicleMenuFrame() {
+        super("Choose a Vehicle");
         this.setSize(800, 600);
         JPanel panel = new JPanel();
         panel.setLayout(new GridLayout(2, 5));
@@ -82,7 +77,6 @@ public class MainFrame extends JFrame implements ActionListener {
         //all labels buttons
         JLabel labelJeep = new JLabel("Jeep");
         labelJeep.setFont(labelJeep.getFont().deriveFont(Font.BOLD, 16));
-//        labelJeep.setHorizontalAlignment(SwingConstants.CENTER);
         JLabel labelFrigate = new JLabel("Frigate");
         labelFrigate.setFont(labelJeep.getFont().deriveFont(Font.BOLD, 16));
         JLabel labelGamePlane = new JLabel("Game Glider");
@@ -118,7 +112,7 @@ public class MainFrame extends JFrame implements ActionListener {
         addWindowListener(new WindowAdapter() {
             @Override
             public void windowClosing(WindowEvent e) {
-                if (MainFrame.vehicleList.size() == 0) {
+                if (VehicleMenuFrame.vehicleList.size() == 0) {
                     JOptionPane.showMessageDialog(null, "There is no vehicle in the agency!", "Error", JOptionPane.ERROR_MESSAGE);
                 } else {
                     //open menu frame and close this frame
@@ -154,7 +148,7 @@ public class MainFrame extends JFrame implements ActionListener {
     @Override
     public void actionPerformed(ActionEvent e) {
         if (e.getSource() == buttonClose){
-            if (MainFrame.vehicleList.size() == 0) {
+            if (VehicleMenuFrame.vehicleList.size() == 0) {
                 JOptionPane.showMessageDialog(null, "There is no vehicle in the agency!", "Error", JOptionPane.ERROR_MESSAGE);
             } else {
                 // Open new frame for menu singleton

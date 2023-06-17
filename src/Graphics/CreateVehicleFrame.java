@@ -1,5 +1,6 @@
 package Graphics;
 
+import abstractFactory.VehicleFactory;
 import vehicle.*;
 import javax.swing.*;
 import java.awt.*;
@@ -14,13 +15,8 @@ import java.util.Random;
 
 public class CreateVehicleFrame extends JFrame implements ActionListener {
 
-    //data members
     private JTextField modelNameField;
-
     private JTextField sourceOfEnergyField;
-//    private String modelName;
-
-
     String vehicleType;
     private JComboBox<Integer> comboBoxPassengers, comboBoxWheels,comboBoxFuel, comboBoxLifeTime, comboBoxSpeed ;
     private JRadioButton withWindButton;
@@ -30,25 +26,28 @@ public class CreateVehicleFrame extends JFrame implements ActionListener {
 
     public CreateVehicleFrame(String vehicleType) {
         this.vehicleType = vehicleType;
-        setTitle(vehicleType + " Details"); //title frame
-        setSize(500, 600); //size frame
-        setLocationRelativeTo(null); //center the frame
-//        setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+        setTitle(vehicleType + " Details");
+        setSize(500, 600);
+        setLocationRelativeTo(null);
         setVisible(true); //show frame
         addWindowListener(new WindowAdapter() {
             @Override
             public void windowClosing(WindowEvent e) {
-                int option = JOptionPane.showOptionDialog(null, "Are you sure you want to cancel?", "Confirmation", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE, null, null, null);
+                int option = JOptionPane.showOptionDialog(null,
+                        "Are you sure you want to cancel?", "Confirmation",
+                        JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE, null, null, null);
                 if (option == JOptionPane.YES_OPTION) {
-                    JOptionPane.showMessageDialog(null, "Create a vehicle canceled!", "Canceled", JOptionPane.ERROR_MESSAGE);
+                    JOptionPane.showMessageDialog(null,
+                            "Create a vehicle canceled!", "Canceled", JOptionPane.ERROR_MESSAGE);
                     dispose();
-                    new MainFrame();
+                    new VehicleMenuFrame();
                 } else {
                     // User clicked No, do nothing
                     setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
                 }
             }
         });
+
         //images
         ImageIcon iconJeep = new ImageIcon("src/ImgSource/jeep3.png");
         Image img = iconJeep.getImage().getScaledInstance(200, 200, java.awt.Image.SCALE_SMOOTH);
@@ -293,6 +292,7 @@ public class CreateVehicleFrame extends JFrame implements ActionListener {
     @Override
     public void actionPerformed(ActionEvent e) {
         Object source = e.getSource();
+        VehicleFactory vehicleFactory = new VehicleFactory();
         if(source == confirmButton){
             switch (vehicleType) {
                 case "Jeep": {
@@ -301,7 +301,11 @@ public class CreateVehicleFrame extends JFrame implements ActionListener {
                         img = new ImageIcon("src/ImgSource/jeep3.png");
                         img = new ImageIcon(img.getImage().getScaledInstance(180, 170, Image.SCALE_DEFAULT));
                     }
-                    update(new Jeep(modelNameField.getText(), (Integer) comboBoxSpeed.getSelectedItem(), (Integer) comboBoxFuel.getSelectedItem(), (Integer) comboBoxLifeTime.getSelectedItem(), img));
+//                    update(new Jeep(modelNameField.getText(), (Integer) comboBoxSpeed.getSelectedItem(), (Integer) comboBoxFuel.getSelectedItem(), (Integer) comboBoxLifeTime.getSelectedItem(), img));
+                    Jeep jeep = (Jeep) vehicleFactory.create("Jeep", modelNameField.getText(), (Integer) comboBoxSpeed.getSelectedItem(), 0,img);
+                    jeep.setAverageFuelConsumption((Integer) comboBoxFuel.getSelectedItem());
+                    jeep.setAverageEngineLife((Integer) comboBoxLifeTime.getSelectedItem());
+                    update(jeep);
                     break;
                 }
                 case "Frigate": {
@@ -310,7 +314,10 @@ public class CreateVehicleFrame extends JFrame implements ActionListener {
                         img = new ImageIcon("src/ImgSource/frigate.png");
                         img = new ImageIcon(img.getImage().getScaledInstance(180, 170, Image.SCALE_DEFAULT));
                     }
-                    update(new Frigate(modelNameField.getText(), (Integer) comboBoxPassengers.getSelectedItem(),(Integer) comboBoxSpeed.getSelectedItem(),withWindButton.isSelected(), img));
+//                    update(new Frigate(modelNameField.getText(), (Integer) comboBoxPassengers.getSelectedItem(),(Integer) comboBoxSpeed.getSelectedItem(),withWindButton.isSelected(), img));
+                    Frigate frigate = (Frigate) vehicleFactory.create("Frigate", modelNameField.getText(), (Integer) comboBoxSpeed.getSelectedItem(),  (Integer) comboBoxPassengers.getSelectedItem(),img);
+                    frigate.setWithWindDirection(withWindButton.isSelected());
+                    update(frigate);
                     break;
                 }
                 case "GameGlider": {
@@ -319,7 +326,9 @@ public class CreateVehicleFrame extends JFrame implements ActionListener {
                         img = new ImageIcon("src/ImgSource/gameGlider.png");
                         img = new ImageIcon(img.getImage().getScaledInstance(180, 170, Image.SCALE_DEFAULT));
                     }
-                    update((new GameGlider(img)));
+//                    update((new GameGlider(img)));
+                    GameGlider gameGlider = (GameGlider) vehicleFactory.create("GameGlider",null,0,0, img);
+                    update(gameGlider);
                     break;
                 }
                 case "SpyGlider": {
@@ -328,7 +337,10 @@ public class CreateVehicleFrame extends JFrame implements ActionListener {
                         img = new ImageIcon("src/ImgSource/spyGlider.png");
                         img = new ImageIcon(img.getImage().getScaledInstance(180, 170, Image.SCALE_DEFAULT));
                     }
-                    update(new SpyGlider(sourceOfEnergyField.getText(), img));
+//                    update(new SpyGlider(sourceOfEnergyField.getText(), img));
+                    SpyGlider spyGlider = (SpyGlider) vehicleFactory.create("SpyGlider",null,0,0, img);
+                    spyGlider.setPowerSource(sourceOfEnergyField.getText());
+                    update(spyGlider);
                     break;
                 }
                 case "Bicycle": {
@@ -378,22 +390,21 @@ public class CreateVehicleFrame extends JFrame implements ActionListener {
                     update(new ElectricBicycle(modelNameField.getText(),(Integer) comboBoxPassengers.getSelectedItem(), (Integer) comboBoxSpeed.getSelectedItem(), (String)comboBoxKindOfLand.getSelectedItem(), (Integer) comboBoxLifeTime.getSelectedItem(), img));
                     break;
                 }
-
             }
             this.dispose();
-            new MainFrame();
+            new VehicleMenuFrame();
         }
     }
 
     public void update(Vehicle vehicle) {
         Thread t = new Thread(() -> {
             try {
-                synchronized (MainFrame.vehicleList) {
+                synchronized (VehicleMenuFrame.vehicleList) {
                     Random rand = new Random();
                     int randomNum;
                     randomNum = 3000 + rand.nextInt((8000 - 3000) + 1);
                     LoadingDBFrame loadingDBFrame = new LoadingDBFrame("Updating Database...");
-                    MainFrame.vehicleList.add(vehicle);
+                    VehicleMenuFrame.vehicleList.add(vehicle);
                     Thread.sleep(randomNum);
                     loadingDBFrame.setText("Update Done!");
                     Thread.sleep(700);
@@ -438,7 +449,3 @@ public class CreateVehicleFrame extends JFrame implements ActionListener {
         return imageIcon;
     }
 }
-
-
-
-
