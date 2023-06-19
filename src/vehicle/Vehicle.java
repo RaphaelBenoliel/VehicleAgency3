@@ -1,5 +1,4 @@
 package vehicle;
-
 import javax.swing.*;
 import java.util.Objects;
 import java.util.concurrent.locks.Lock;
@@ -14,6 +13,8 @@ public abstract class Vehicle {
     protected int maxPassengers;
     protected int maxSpeed;
     protected ImageIcon image;
+    protected static String status = "Available";
+    protected String color;
     private boolean inTest = false;
 
     private boolean inBuy = false;
@@ -39,7 +40,7 @@ public abstract class Vehicle {
         this.image = image;
     }
 
-    protected Vehicle() {
+    protected Vehicle(Vehicle vehicle) {
     }
 
     /**
@@ -47,7 +48,21 @@ public abstract class Vehicle {
      * @param distance the distance to move the vehicle in km.
      */
     public void move(int distance) { this.distanceTraveled += distance; }
+    public String getStatus() {
+        return status;
+    }
 
+    public static void setStatus(String newStatus) {
+        status = newStatus;
+    }
+
+    public String getColor() {
+        return color;
+    }
+
+    public void setColor(String color) {
+        this.color = color;
+    }
     public String getModel() { return this.model; }
 
     public int getDistanceTraveled() { return this.distanceTraveled; }
@@ -75,7 +90,7 @@ public abstract class Vehicle {
      */
     @Override
     public String toString() {
-        return "Model: " + this.getModel() +",\nTraveled: " + this.getDistanceTraveled() + "KM,\nMax Speed of "
+        return "Model: " + this.getModel() +",\nStatus: "+ status+", Color: "+color+ "\nTraveled: " + this.getDistanceTraveled() + "KM,\nMax Speed of "
                 + this.getMaxSpeed() +
                 "Mph,\ncan carry max of " + this.getMaxPassengers() + " people.";
     }
@@ -106,20 +121,13 @@ public abstract class Vehicle {
     public synchronized void startTest(double distance) throws InterruptedException {
 
         synchronized (sharedLock) {
-
             if (isInTest()) {
                 JOptionPane.showMessageDialog(null, "This vehicle is already being tested.");
                 return;
             }
-
             inTest = true;
-            // Effectuer les actions nécessaires pour le test
-
-            // Faire dormir le thread pendant la durée du test
             long sleepTime = (long) (distance * 100);
             Thread.sleep(sleepTime);
-
-            // Effectuer d'autres actions après le test
             synchronized (sharedLock) {
                 inTest = false;
             }
@@ -133,8 +141,6 @@ public abstract class Vehicle {
         return lock;
     }
 
-
-
     public synchronized void starBuy() throws InterruptedException {
 
         synchronized (sharedLockB) {
@@ -145,9 +151,6 @@ public abstract class Vehicle {
             }
 
             inBuy = true;
-
-
-            // Effectuer d'autres actions après le test
             synchronized (sharedLock) {
                 inBuy = false;
             }

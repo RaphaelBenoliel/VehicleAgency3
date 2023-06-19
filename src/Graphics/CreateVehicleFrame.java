@@ -1,5 +1,5 @@
 package Graphics;
-
+import Decorators.*;
 import abstractFactory.VehicleFactory;
 import vehicle.*;
 import javax.swing.*;
@@ -22,7 +22,8 @@ public class CreateVehicleFrame extends JFrame implements ActionListener {
     private JRadioButton withWindButton;
     private JComboBox<String> comboBoxKindOfLand, comboBoxFlag;
     private JButton confirmButton;
-
+    private String selectedColor;
+    private String selectedStatus;
 
     public CreateVehicleFrame(String vehicleType) {
         this.vehicleType = vehicleType;
@@ -89,6 +90,13 @@ public class CreateVehicleFrame extends JFrame implements ActionListener {
         JPanel panel = new JPanel();
         panel.setLayout(new BoxLayout(panel, BoxLayout.Y_AXIS));
         getContentPane().add(panel);
+
+        JLabel colorLabel = new JLabel("Color:");
+        JComboBox<String> colorComboBox = new JComboBox<>(new String[]{"Red", "Blue", "Green"});  // Example colors
+        panel.add(colorLabel);
+        panel.add(colorComboBox);
+
+        selectedColor = (String) colorComboBox.getSelectedItem();
 
         switch (vehicleType) {
             case "Jeep" -> {
@@ -473,3 +481,5 @@ public class CreateVehicleFrame extends JFrame implements ActionListener {
         return imageIcon;
     }
 }
+
+

@@ -12,6 +12,7 @@ public class TestManager {
     }
 
     public static void startTest(Vehicle vehicle, double distance) {
+        vehicle.setStatus("In Test");
         if (isVehicleInTest(vehicle)) {
             throw new IllegalStateException("A test is already in progress for this vehicle.");
         }
@@ -24,6 +25,7 @@ public class TestManager {
             } catch (InterruptedException e) {
                 e.printStackTrace();
             } finally {
+                vehicle.setStatus("Available");
                 isInTest.remove(vehicle);
             }
         });
