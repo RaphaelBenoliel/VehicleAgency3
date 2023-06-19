@@ -7,6 +7,8 @@ import java.awt.*;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 
 public class TestingVehicleFrame {
     private static TestingVehicleFrame instance;
@@ -45,10 +47,26 @@ public class TestingVehicleFrame {
         instance.frame.dispose();
         instance = null;
     }
+    private Color getColorFromString(String colorString) {
+        // Define color mappings
+        Map<String, Color> colorMap = new HashMap<>();
+        colorMap.put("red", Color.RED);
+        colorMap.put("green", Color.GREEN);
+        colorMap.put("blue", Color.BLUE);
+        // Add more color mappings as needed
+
+        // Get the corresponding Color object for the color string
+        Color color = colorMap.get(colorString.toLowerCase());
+        if (color == null) {
+            // Default color if mapping is not found
+            color = Color.BLACK;
+        }
+        return color;
+    }
     private JLabel createVehiclePanel(Vehicle vehicle) {
+
         JLabel panel = new JLabel();
         panel.setLayout(new GridLayout(2, 1));
-
         JLabel imageLabel = new JLabel();
         imageLabel.setPreferredSize(new Dimension(200, 200));
 
@@ -63,7 +81,7 @@ public class TestingVehicleFrame {
         JTextArea detailsArea = new JTextArea(vehicle.toString());
         detailsArea.setEditable(false);
         panel.add(detailsArea);
-
+        Color borderColor = getColorFromString(vehicle.getColor());
         panel.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
