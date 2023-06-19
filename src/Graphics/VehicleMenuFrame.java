@@ -148,7 +148,9 @@ public class VehicleMenuFrame extends JFrame implements ActionListener {
     public static ArrayList<Vehicle> getVehicleList() {
         return vehicleList;
     }
-
+    public static void setVehicleList(ArrayList<Vehicle> vehicleList) {
+        VehicleMenuFrame.vehicleList = vehicleList;
+    }
     @Override
     public void actionPerformed(ActionEvent e) {
         if (e.getSource() == buttonClose){

@@ -1,4 +1,7 @@
 package Graphics;
+import Momento.Caretaker;
+import Momento.Memento;
+import Momento.Originator;
 import vehicle.*;
 
 import java.awt.Font;
@@ -13,7 +16,6 @@ import java.util.List;
 public class MenuFrame extends JFrame implements ActionListener {
 
     private static MenuFrame instance;
-    private static List<MenuState> savedStates = new ArrayList<>();
 
     private final JButton addVehicleButton = new JButton("Add Vehicle");
     private final JButton buyVehicleButton = new JButton("Buy Vehicle");
@@ -27,49 +29,19 @@ public class MenuFrame extends JFrame implements ActionListener {
     private final Object lock = new Object();
     protected static int total_distance = 0;
     private final JLabel totalDistanceLabel = new JLabel();
-
+    private Originator originator ;
+    private Caretaker caretaker ;
 
     public static void setTotal_distance(int total) {
         total_distance = total_distance + total;
-        createNewInstance();
+        if (instance != null) {
+            instance.updateTotalDistanceLabel();
+        }
     }
 
     public static int getTotal_distance() {
         return total_distance;
     }
-
-    private void saveState() {
-        savedStates.add(new MenuState(total_distance, VehicleMenuFrame.vehicleList));
-        if (savedStates.size() > 3) {
-            savedStates.remove(0);
-        }
-        JOptionPane.showMessageDialog(null, "State saved successfully!", "Save State", JOptionPane.INFORMATION_MESSAGE);
-    }
-
-    private void loadState() {
-        if (savedStates.isEmpty()) {
-            JOptionPane.showMessageDialog(null, "No saved states available!", "Load State", JOptionPane.ERROR_MESSAGE);
-            return;
-        }
-
-        MenuState lastState = savedStates.get(savedStates.size() - 1);
-        total_distance = lastState.getTotalDistance();
-
-        // Create a deep copy of the saved vehicle list
-        List<Vehicle> restoredVehicleList = new ArrayList<>();
-        for (Vehicle vehicle : lastState.getVehicleList()) {
-            restoredVehicleList.add(vehicle.clone()); // Assuming the Vehicle class implements the Cloneable interface
-        }
-
-        VehicleMenuFrame.vehicleList = (ArrayList<Vehicle>) restoredVehicleList;
-
-        savedStates.remove(savedStates.size() - 1);
-        createNewInstance();
-        JOptionPane.showMessageDialog(null, "State loaded successfully!", "Load State", JOptionPane.INFORMATION_MESSAGE);
-    }
-
-
-
 
 
 
@@ -77,7 +49,8 @@ public class MenuFrame extends JFrame implements ActionListener {
     private MenuFrame() {
         super("Vehicle Agency Menu");
         this.setSize(800, 600);
-
+        caretaker = new Caretaker();
+        originator = new Originator();
 
         JPanel panel = new JPanel(new GridLayout(7, 1));
         getContentPane().add(panel);
@@ -120,23 +93,36 @@ public class MenuFrame extends JFrame implements ActionListener {
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         this.setVisible(true);
         updateTotalDistanceLabel();
+        updatePanelContent();
+    }
+
+    private void updatePanelContent() {
+        JPanel panel = (JPanel) getContentPane().getComponent(0);
+        panel.removeAll();
+        panel.setLayout(new GridLayout(7, 1));
+        panel.add(totalDistanceLabel);
+        panel.add(addVehicleButton);
+        panel.add(buyVehicleButton);
+        panel.add(takeVehicleButton);
+        panel.add(resetDistanceButton);
+        panel.add(changeFlagButton);
+        panel.add(inventoryButton);
+        panel.add(exitButton);
+        panel.add(saveStateButton);
+        panel.add(loadStateButton);
+
+        revalidate();
+        repaint();
     }
 
     private void updateTotalDistanceLabel() {
         totalDistanceLabel.setText("Vehicles agency total distance = " + getTotal_distance() + " km");
     }
 
-    private static void createNewInstance() {
-        savedStates.add(new MenuState(total_distance, VehicleMenuFrame.vehicleList));
-
-        if (savedStates.size() > 3) {
-            savedStates.remove(0); // Remove the oldest save if there are more than 3 saves
-        }
-
-        instance.dispose();
-        instance = new MenuFrame();
-    }
-
+//    private static void createNewInstance() {
+////        instance.dispose();
+//        instance = new MenuFrame();
+//    }
     public static MenuFrame getInstance() {
         if (instance == null) {
             instance = new MenuFrame();
@@ -199,13 +185,34 @@ public class MenuFrame extends JFrame implements ActionListener {
             }
         }
         if (source == saveStateButton) {
-            saveState();
+            originator.setState(VehicleMenuFrame.getVehicleList());
+            caretaker.addMemento(originator.createMemento());
+            updatePanelContent();
+            JOptionPane.showMessageDialog(null, "State saved successfully!", "Save State", JOptionPane.INFORMATION_MESSAGE);
         }
 
         if (source == loadStateButton) {
-            loadState();
-        }
+            Memento memento = caretaker.getMemento();
+            if (memento == null) {
+                JOptionPane.showMessageDialog(null, "There are no saved states!", "Error", JOptionPane.ERROR_MESSAGE);
+                return;
+            }
 
+            ArrayList<Vehicle> currentState = originator.getState();
+            ArrayList<Vehicle> loadedState = memento.getState();
+
+            if (currentState.equals(loadedState)) {
+                JOptionPane.showMessageDialog(null, "State already loaded!", "Information", JOptionPane.INFORMATION_MESSAGE);
+                return;
+            }
+
+            originator.setMemento(memento);
+            VehicleMenuFrame.setVehicleList(loadedState);
+            updatePanelContent();
+            updateTotalDistanceLabel();
+            loadStateButton.setEnabled(false); // Disable the load button after loading the state
+            JOptionPane.showMessageDialog(null, "State loaded successfully!", "Load State", JOptionPane.INFORMATION_MESSAGE);
+        }
         if (source == exitButton) {
             if(TestManager.isAnyVehicleInTest() || BuyManager.isAnyVehicleInBuyProgress()){
                 JOptionPane.showMessageDialog(null, "You can't exit while vehicle is in test!", "Error", JOptionPane.ERROR_MESSAGE);
