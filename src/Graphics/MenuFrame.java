@@ -19,16 +19,29 @@ public class MenuFrame extends JFrame implements ActionListener {
     private final JButton inventoryButton = new JButton("Inventory");
     private final JButton exitButton = new JButton("Quit");
     private final Object lock = new Object();
+    protected static int total_distance = 0;
+    private final JLabel totalDistanceLabel = new JLabel();
 
+
+    public static void setTotal_distance(int total) {
+        total_distance = total_distance + total;
+        createNewInstance();
+    }
+
+    public static int getTotal_distance() {
+        return total_distance;
+    }
 
     //constructor
     private MenuFrame() {
         super("Vehicle Agency Menu");
         this.setSize(800, 600);
 
+
         JPanel panel = new JPanel(new GridLayout(7, 1));
         getContentPane().add(panel);
-        
+        panel.add(totalDistanceLabel);
+
         //adding buttons to panel
         panel.add(addVehicleButton);
         panel.add(buyVehicleButton);
@@ -59,7 +72,18 @@ public class MenuFrame extends JFrame implements ActionListener {
 
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         this.setVisible(true);
+        updateTotalDistanceLabel();
     }
+
+    private void updateTotalDistanceLabel() {
+        totalDistanceLabel.setText("Vehicles agency total distance = " + getTotal_distance() + " km");
+    }
+
+    private static void createNewInstance() {
+        instance.dispose(); // Dispose the current instance
+        instance = new MenuFrame(); // Create a new instance
+    }
+
     public static MenuFrame getInstance() {
         if (instance == null) {
             instance = new MenuFrame();

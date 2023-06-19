@@ -4,6 +4,8 @@ import java.awt.*;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Random;
 
 import javax.swing.*;
@@ -41,6 +43,22 @@ public class BuyingVehicleFrame {
         instance.frame.dispose();
         instance = null;
     }
+    private Color getColorFromString(String colorString) {
+        // Define color mappings
+        Map<String, Color> colorMap = new HashMap<>();
+        colorMap.put("red", Color.RED);
+        colorMap.put("green", Color.GREEN);
+        colorMap.put("blue", Color.BLUE);
+        // Add more color mappings as needed
+
+        // Get the corresponding Color object for the color string
+        Color color = colorMap.get(colorString.toLowerCase());
+        if (color == null) {
+            // Default color if mapping is not found
+            color = Color.BLACK;
+        }
+        return color;
+    }
     public JLabel VehiclePanels(Vehicle vehicle) {
         JLabel panel = new JLabel();
         panel.setLayout(new GridLayout(2, 1));
@@ -52,6 +70,8 @@ public class BuyingVehicleFrame {
         Image image = imageVehicle.getImage(); // transform it
         image = image.getScaledInstance(150, 150, java.awt.Image.SCALE_SMOOTH);
         this.imageVehicle = new ImageIcon(image);
+        Color borderColor = getColorFromString(vehicle.getColor());
+        imageLabel.setBorder(BorderFactory.createLineBorder(borderColor, 2));
         imageLabel.setIcon(imageVehicle);
         panel.add(imageLabel);
 

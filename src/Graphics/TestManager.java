@@ -1,25 +1,32 @@
 package Graphics;
+
 import vehicle.*;
 
 import java.util.Map;
-import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.*;
 
 public class TestManager {
+    private static final int MAX_CONCURRENT_TESTS = 7;
     private static final Map<Vehicle, Boolean> isInTest = new ConcurrentHashMap<>();
+    private static final ExecutorService executor = Executors.newFixedThreadPool(MAX_CONCURRENT_TESTS);
 
     public static boolean isVehicleInTest(Vehicle vehicle) {
         return isInTest.containsKey(vehicle);
     }
 
     public static void startTest(Vehicle vehicle, double distance) {
-        vehicle.setStatus("In Test");
         if (isVehicleInTest(vehicle)) {
             throw new IllegalStateException("A test is already in progress for this vehicle.");
         }
 
+        if (isAnyVehicleInTest()) {
+            throw new IllegalStateException("Maximum concurrent tests limit reached.");
+        }
+
+        vehicle.setStatus("In Test");
         isInTest.put(vehicle, true);
 
-        Thread testThread = new Thread(() -> {
+        executor.execute(() -> {
             try {
                 vehicle.startTest(distance);
             } catch (InterruptedException e) {
@@ -29,9 +36,13 @@ public class TestManager {
                 isInTest.remove(vehicle);
             }
         });
-        testThread.start();
     }
+
     public static boolean isAnyVehicleInTest() {
-        return !isInTest.isEmpty();
+        return isInTest.size() >= MAX_CONCURRENT_TESTS;
+    }
+
+    public static void shutdown() {
+        executor.shutdown();
     }
 }

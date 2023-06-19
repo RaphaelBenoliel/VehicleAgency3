@@ -78,10 +78,13 @@ public class TestingVehicleFrame {
         imageLabel.setIcon(imageVehicle);
         panel.add(imageLabel);
 
+        Color borderColor = getColorFromString(vehicle.getColor());
+        imageLabel.setBorder(BorderFactory.createLineBorder(borderColor, 2));
+        panel.add(imageLabel);
+
         JTextArea detailsArea = new JTextArea(vehicle.toString());
         detailsArea.setEditable(false);
         panel.add(detailsArea);
-        Color borderColor = getColorFromString(vehicle.getColor());
         panel.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
@@ -106,6 +109,7 @@ public class TestingVehicleFrame {
                             try {
 
                                 vehicle.move(distance);
+                                MenuFrame.setTotal_distance(distance);
                                 TestManager.startTest(vehicle, distance);
                                 JOptionPane.showMessageDialog(null, "The vehicle is now being tested.", "Success", JOptionPane.INFORMATION_MESSAGE);
                             } catch (IllegalStateException ex) {

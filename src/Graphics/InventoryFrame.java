@@ -7,6 +7,8 @@ import java.awt.event.KeyEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 
 public class InventoryFrame {
     private static InventoryFrame instance;
@@ -59,6 +61,23 @@ public class InventoryFrame {
         }
         return instance;
     }
+
+    private Color getColorFromString(String colorString) {
+        // Define color mappings
+        Map<String, Color> colorMap = new HashMap<>();
+        colorMap.put("red", Color.RED);
+        colorMap.put("green", Color.GREEN);
+        colorMap.put("blue", Color.BLUE);
+        // Add more color mappings as needed
+
+        // Get the corresponding Color object for the color string
+        Color color = colorMap.get(colorString.toLowerCase());
+        if (color == null) {
+            // Default color if mapping is not found
+            color = Color.BLACK;
+        }
+        return color;
+    }
     public static void resetInstance() {
         instance.frame.dispose();
         instance = null;
@@ -74,6 +93,8 @@ public class InventoryFrame {
         Image image = imageVehicle.getImage();
         image = image.getScaledInstance(200, 200, java.awt.Image.SCALE_SMOOTH);
         this.imageVehicle = new ImageIcon(image);
+        Color borderColor = getColorFromString(vehicle.getColor());
+        imageLabel.setBorder(BorderFactory.createLineBorder(borderColor, 2));
         imageLabel.setIcon(imageVehicle);
         panel.add(imageLabel);
 

@@ -13,7 +13,7 @@ public abstract class Vehicle {
     protected int maxPassengers;
     protected int maxSpeed;
     protected ImageIcon image;
-    protected static String status = "Available";
+    private String status = "Available";
     protected String color;
     private boolean inTest = false;
 
@@ -43,6 +43,7 @@ public abstract class Vehicle {
     protected Vehicle(Vehicle vehicle) {
     }
 
+
     /**
      * Moves the vehicle by the specified distance.
      * @param distance the distance to move the vehicle in km.
@@ -52,7 +53,7 @@ public abstract class Vehicle {
         return status;
     }
 
-    public static void setStatus(String newStatus) {
+    public void setStatus(String newStatus) {
         status = newStatus;
     }
 
