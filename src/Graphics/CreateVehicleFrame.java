@@ -313,6 +313,7 @@ public class CreateVehicleFrame extends JFrame implements ActionListener {
                     Jeep jeep = (Jeep) vehicleFactory.create("Jeep", modelNameField.getText(), (Integer) comboBoxSpeed.getSelectedItem(), 0,img);
                     jeep.setAverageFuelConsumption((Integer) comboBoxFuel.getSelectedItem());
                     jeep.setAverageEngineLife((Integer) comboBoxLifeTime.getSelectedItem());
+                    jeep.setColor(selectedColor);
                     update(jeep);
                     break;
                 }
@@ -325,6 +326,7 @@ public class CreateVehicleFrame extends JFrame implements ActionListener {
 //                    update(new Frigate(modelNameField.getText(), (Integer) comboBoxPassengers.getSelectedItem(),(Integer) comboBoxSpeed.getSelectedItem(),withWindButton.isSelected(), img));
                     Frigate frigate = (Frigate) vehicleFactory.create("Frigate", modelNameField.getText(), (Integer) comboBoxSpeed.getSelectedItem(),  (Integer) comboBoxPassengers.getSelectedItem(),img);
                     frigate.setWithWindDirection(withWindButton.isSelected());
+                    frigate.setColor(selectedColor);
                     update(frigate);
                     break;
                 }
@@ -336,6 +338,7 @@ public class CreateVehicleFrame extends JFrame implements ActionListener {
                     }
 //                    update((new GameGlider(img)));
                     GameGlider gameGlider = (GameGlider) vehicleFactory.create("GameGlider",null,0,0, img);
+
                     update(gameGlider);
                     break;
                 }
