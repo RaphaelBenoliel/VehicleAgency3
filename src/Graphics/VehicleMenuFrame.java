@@ -11,7 +11,7 @@ import vehicle.*;
 
 public class VehicleMenuFrame extends JFrame implements ActionListener {
 
-    static final ArrayList<Vehicle> vehicleList = new ArrayList<Vehicle>();
+    static ArrayList<Vehicle> vehicleList = new ArrayList<Vehicle>();
     private final JButton buttonJeep = new JButton();
     private final JButton buttonFrigate = new JButton();
     private final JButton buttonGameGlider = new JButton();
@@ -143,6 +143,10 @@ public class VehicleMenuFrame extends JFrame implements ActionListener {
         panel.add(button);
         panel.add(label);
         return panel;
+    }
+
+    public static ArrayList<Vehicle> getVehicleList() {
+        return vehicleList;
     }
 
     @Override

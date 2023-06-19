@@ -6,11 +6,15 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.ArrayList;
 import java.util.Random;
+import java.util.List;
 
 public class MenuFrame extends JFrame implements ActionListener {
 
     private static MenuFrame instance;
+    private static List<MenuState> savedStates = new ArrayList<>();
+
     private final JButton addVehicleButton = new JButton("Add Vehicle");
     private final JButton buyVehicleButton = new JButton("Buy Vehicle");
     private final JButton takeVehicleButton = new JButton("Test Drive");
@@ -18,6 +22,8 @@ public class MenuFrame extends JFrame implements ActionListener {
     private final JButton changeFlagButton = new JButton("Change flag");
     private final JButton inventoryButton = new JButton("Inventory");
     private final JButton exitButton = new JButton("Quit");
+    private final JButton saveStateButton = new JButton("Save State");
+    private final JButton loadStateButton = new JButton("Load State");
     private final Object lock = new Object();
     protected static int total_distance = 0;
     private final JLabel totalDistanceLabel = new JLabel();
@@ -31,6 +37,41 @@ public class MenuFrame extends JFrame implements ActionListener {
     public static int getTotal_distance() {
         return total_distance;
     }
+
+    private void saveState() {
+        savedStates.add(new MenuState(total_distance, VehicleMenuFrame.vehicleList));
+        if (savedStates.size() > 3) {
+            savedStates.remove(0);
+        }
+        JOptionPane.showMessageDialog(null, "State saved successfully!", "Save State", JOptionPane.INFORMATION_MESSAGE);
+    }
+
+    private void loadState() {
+        if (savedStates.isEmpty()) {
+            JOptionPane.showMessageDialog(null, "No saved states available!", "Load State", JOptionPane.ERROR_MESSAGE);
+            return;
+        }
+
+        MenuState lastState = savedStates.get(savedStates.size() - 1);
+        total_distance = lastState.getTotalDistance();
+
+        // Create a deep copy of the saved vehicle list
+        List<Vehicle> restoredVehicleList = new ArrayList<>();
+        for (Vehicle vehicle : lastState.getVehicleList()) {
+            restoredVehicleList.add(vehicle.clone()); // Assuming the Vehicle class implements the Cloneable interface
+        }
+
+        VehicleMenuFrame.vehicleList = (ArrayList<Vehicle>) restoredVehicleList;
+
+        savedStates.remove(savedStates.size() - 1);
+        createNewInstance();
+        JOptionPane.showMessageDialog(null, "State loaded successfully!", "Load State", JOptionPane.INFORMATION_MESSAGE);
+    }
+
+
+
+
+
 
     //constructor
     private MenuFrame() {
@@ -50,6 +91,8 @@ public class MenuFrame extends JFrame implements ActionListener {
         panel.add(changeFlagButton);
         panel.add(inventoryButton);
         panel.add(exitButton);
+        panel.add(saveStateButton);
+        panel.add(loadStateButton);
 
         //change size and font of buttons
 
@@ -60,6 +103,8 @@ public class MenuFrame extends JFrame implements ActionListener {
         changeFlagButton.setFont(new Font("Arial", Font.BOLD, 20));
         inventoryButton.setFont(new Font("Arial", Font.BOLD, 20));
         exitButton.setFont(new Font("Arial", Font.BOLD, 20));
+        saveStateButton.setFont(new Font("Arial", Font.BOLD, 20));
+        loadStateButton.setFont(new Font("Arial", Font.BOLD, 20));
 
         //action listeners of buttons
         addVehicleButton.addActionListener(this);
@@ -69,6 +114,8 @@ public class MenuFrame extends JFrame implements ActionListener {
         changeFlagButton.addActionListener(this);
         inventoryButton.addActionListener(this);
         exitButton.addActionListener(this);
+        saveStateButton.addActionListener(this);
+        loadStateButton.addActionListener(this);
 
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         this.setVisible(true);
@@ -80,8 +127,14 @@ public class MenuFrame extends JFrame implements ActionListener {
     }
 
     private static void createNewInstance() {
-        instance.dispose(); // Dispose the current instance
-        instance = new MenuFrame(); // Create a new instance
+        savedStates.add(new MenuState(total_distance, VehicleMenuFrame.vehicleList));
+
+        if (savedStates.size() > 3) {
+            savedStates.remove(0); // Remove the oldest save if there are more than 3 saves
+        }
+
+        instance.dispose();
+        instance = new MenuFrame();
     }
 
     public static MenuFrame getInstance() {
@@ -99,13 +152,13 @@ public class MenuFrame extends JFrame implements ActionListener {
 
         }
         if (source == buyVehicleButton) {
-           if (BuyingVehicleFrame.getInstance() == null) {
-               BuyingVehicleFrame.getInstance();
+            if (BuyingVehicleFrame.getInstance() == null) {
+                BuyingVehicleFrame.getInstance();
             }
-           else {
-               BuyingVehicleFrame.resetInstance();
-               BuyingVehicleFrame.getInstance();
-           }
+            else {
+                BuyingVehicleFrame.resetInstance();
+                BuyingVehicleFrame.getInstance();
+            }
         }
         if (source == takeVehicleButton) {
             if (TestingVehicleFrame.getInstance() == null) {
@@ -121,7 +174,7 @@ public class MenuFrame extends JFrame implements ActionListener {
             Reset();
         }
         if (source == changeFlagButton) {
-           for (Object vehicle : VehicleMenuFrame.vehicleList) {
+            for (Object vehicle : VehicleMenuFrame.vehicleList) {
                 if (vehicle instanceof ISeaTransportation) {
                     flag = true;
                     if (FlagsFrame.getInstance() == null) {
@@ -133,7 +186,7 @@ public class MenuFrame extends JFrame implements ActionListener {
                     }
                 }
             }
-           if (!flag) JOptionPane.showMessageDialog(null, "There is no sea vehicle in the agency!", "Error", JOptionPane.ERROR_MESSAGE);
+            if (!flag) JOptionPane.showMessageDialog(null, "There is no sea vehicle in the agency!", "Error", JOptionPane.ERROR_MESSAGE);
 //            this.dispose();
         }
         if (source == inventoryButton) {
@@ -145,10 +198,18 @@ public class MenuFrame extends JFrame implements ActionListener {
                 InventoryFrame.getInstance();
             }
         }
+        if (source == saveStateButton) {
+            saveState();
+        }
+
+        if (source == loadStateButton) {
+            loadState();
+        }
+
         if (source == exitButton) {
             if(TestManager.isAnyVehicleInTest() || BuyManager.isAnyVehicleInBuyProgress()){
-                    JOptionPane.showMessageDialog(null, "You can't exit while vehicle is in test!", "Error", JOptionPane.ERROR_MESSAGE);
-                    return;
+                JOptionPane.showMessageDialog(null, "You can't exit while vehicle is in test!", "Error", JOptionPane.ERROR_MESSAGE);
+                return;
             }
             int option = JOptionPane.showConfirmDialog(this,
                     "Are you sure you want to exit?", "Exit", JOptionPane.YES_NO_OPTION);
