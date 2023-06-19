@@ -338,7 +338,7 @@ public class CreateVehicleFrame extends JFrame implements ActionListener {
                     }
 //                    update((new GameGlider(img)));
                     GameGlider gameGlider = (GameGlider) vehicleFactory.create("GameGlider",null,0,0, img);
-
+                    gameGlider.setColor(selectedColor);
                     update(gameGlider);
                     break;
                 }
@@ -351,6 +351,7 @@ public class CreateVehicleFrame extends JFrame implements ActionListener {
 //                    update(new SpyGlider(sourceOfEnergyField.getText(), img));
                     SpyGlider spyGlider = (SpyGlider) vehicleFactory.create("SpyGlider",null,0,0, img);
                     spyGlider.setPowerSource(sourceOfEnergyField.getText());
+                    spyGlider.setColor(selectedColor);
                     update(spyGlider);
                     break;
                 }
@@ -363,6 +364,7 @@ public class CreateVehicleFrame extends JFrame implements ActionListener {
 //                    update(new Bicycle(modelNameField.getText(), (Integer) comboBoxPassengers.getSelectedItem(),(Integer) comboBoxSpeed.getSelectedItem(),  (String)comboBoxKindOfLand.getSelectedItem() ,img));
                     Bicycle bicycle = (Bicycle) vehicleFactory.create("Bicycle", modelNameField.getText(), (Integer) comboBoxSpeed.getSelectedItem(),  (Integer) comboBoxPassengers.getSelectedItem(),img);
                     bicycle.setRoadType((String)comboBoxKindOfLand.getSelectedItem());
+                    bicycle.setColor(selectedColor);
                     update(bicycle);
                     break;
                 }
@@ -375,6 +377,7 @@ public class CreateVehicleFrame extends JFrame implements ActionListener {
 //                    update(new CruiseShip(modelNameField.getText(), (Integer) comboBoxPassengers.getSelectedItem(),(Integer) comboBoxSpeed.getSelectedItem(), (String) comboBoxFlag.getSelectedItem() , img));
                     CruiseShip cruiseShip = (CruiseShip) vehicleFactory.create("CruiseShip", modelNameField.getText(), (Integer) comboBoxSpeed.getSelectedItem(),  (Integer) comboBoxPassengers.getSelectedItem(),img);
                     cruiseShip.setCountryFlag((String) comboBoxFlag.getSelectedItem());
+                    cruiseShip.setColor(selectedColor);
                     update(cruiseShip);
                     break;
                 }
@@ -394,6 +397,7 @@ public class CreateVehicleFrame extends JFrame implements ActionListener {
                         amphibious.setAverageFuelConsumption((Integer) comboBoxFuel.getSelectedItem());
                         amphibious.setAverageEngineLife((Integer) comboBoxLifeTime.getSelectedItem());
                         amphibious.setWithWindDirection(withWindButton.isSelected());
+                        amphibious.setColor(selectedColor);
                         update(amphibious);
                     } else {
                         ImageIcon img = getImageFromUser();
@@ -408,6 +412,7 @@ public class CreateVehicleFrame extends JFrame implements ActionListener {
                         hybridPlane.setAverageFuelConsumption((Integer) comboBoxFuel.getSelectedItem());
                         hybridPlane.setAverageEngineLife((Integer) comboBoxLifeTime.getSelectedItem());
                         hybridPlane.setWithWindDirection(withWindButton.isSelected());
+                        hybridPlane.setColor(selectedColor);
                         update(hybridPlane);
                     }
                     break;
@@ -422,6 +427,7 @@ public class CreateVehicleFrame extends JFrame implements ActionListener {
                     ElectricBicycle electricBicycle = (ElectricBicycle) vehicleFactory.create("ElectricBicycle", modelNameField.getText(), (Integer) comboBoxSpeed.getSelectedItem(),  (Integer) comboBoxPassengers.getSelectedItem(),img);
                     electricBicycle.setRoadType((String)comboBoxKindOfLand.getSelectedItem());
                     electricBicycle.setAverageEngineLife((Integer) comboBoxLifeTime.getSelectedItem());
+                    electricBicycle.setColor(selectedColor);
                     update(electricBicycle);
                     break;
                 }
