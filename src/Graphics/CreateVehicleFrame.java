@@ -20,7 +20,7 @@ public class CreateVehicleFrame extends JFrame implements ActionListener {
     String vehicleType;
     private JComboBox<Integer> comboBoxPassengers, comboBoxWheels,comboBoxFuel, comboBoxLifeTime, comboBoxSpeed ;
     private JRadioButton withWindButton;
-    private JComboBox<String> comboBoxKindOfLand, comboBoxFlag;
+    private JComboBox<String> comboBoxKindOfLand, comboBoxFlag, comboBoxColor, comboBoxStatus;
     private JButton confirmButton;
     private String selectedColor;
     private String selectedStatus;
@@ -92,11 +92,11 @@ public class CreateVehicleFrame extends JFrame implements ActionListener {
         getContentPane().add(panel);
 
         JLabel colorLabel = new JLabel("Color:");
-        JComboBox<String> colorComboBox = new JComboBox<>(new String[]{"Red", "Blue", "Green"});  // Example colors
+        comboBoxColor = new JComboBox<>(new String[]{"Red", "Blue", "Green"});  // Example colors
         panel.add(colorLabel);
-        panel.add(colorComboBox);
+        panel.add(comboBoxColor);
 
-        selectedColor = (String) colorComboBox.getSelectedItem();
+
 
         switch (vehicleType) {
             case "Jeep" -> {
@@ -313,7 +313,7 @@ public class CreateVehicleFrame extends JFrame implements ActionListener {
                     Jeep jeep = (Jeep) vehicleFactory.create("Jeep", modelNameField.getText(), (Integer) comboBoxSpeed.getSelectedItem(), 0,img);
                     jeep.setAverageFuelConsumption((Integer) comboBoxFuel.getSelectedItem());
                     jeep.setAverageEngineLife((Integer) comboBoxLifeTime.getSelectedItem());
-                    jeep.setColor(selectedColor);
+                    jeep.setColor((String) comboBoxColor.getSelectedItem());
                     update(jeep);
                     break;
                 }
@@ -326,7 +326,7 @@ public class CreateVehicleFrame extends JFrame implements ActionListener {
 //                    update(new Frigate(modelNameField.getText(), (Integer) comboBoxPassengers.getSelectedItem(),(Integer) comboBoxSpeed.getSelectedItem(),withWindButton.isSelected(), img));
                     Frigate frigate = (Frigate) vehicleFactory.create("Frigate", modelNameField.getText(), (Integer) comboBoxSpeed.getSelectedItem(),  (Integer) comboBoxPassengers.getSelectedItem(),img);
                     frigate.setWithWindDirection(withWindButton.isSelected());
-                    frigate.setColor(selectedColor);
+                    frigate.setColor((String) comboBoxColor.getSelectedItem());
                     update(frigate);
                     break;
                 }
@@ -338,7 +338,7 @@ public class CreateVehicleFrame extends JFrame implements ActionListener {
                     }
 //                    update((new GameGlider(img)));
                     GameGlider gameGlider = (GameGlider) vehicleFactory.create("GameGlider",null,0,0, img);
-                    gameGlider.setColor(selectedColor);
+                    gameGlider.setColor((String) comboBoxColor.getSelectedItem());
                     update(gameGlider);
                     break;
                 }
@@ -351,7 +351,7 @@ public class CreateVehicleFrame extends JFrame implements ActionListener {
 //                    update(new SpyGlider(sourceOfEnergyField.getText(), img));
                     SpyGlider spyGlider = (SpyGlider) vehicleFactory.create("SpyGlider",null,0,0, img);
                     spyGlider.setPowerSource(sourceOfEnergyField.getText());
-                    spyGlider.setColor(selectedColor);
+                    spyGlider.setColor((String) comboBoxColor.getSelectedItem());
                     update(spyGlider);
                     break;
                 }
@@ -364,7 +364,7 @@ public class CreateVehicleFrame extends JFrame implements ActionListener {
 //                    update(new Bicycle(modelNameField.getText(), (Integer) comboBoxPassengers.getSelectedItem(),(Integer) comboBoxSpeed.getSelectedItem(),  (String)comboBoxKindOfLand.getSelectedItem() ,img));
                     Bicycle bicycle = (Bicycle) vehicleFactory.create("Bicycle", modelNameField.getText(), (Integer) comboBoxSpeed.getSelectedItem(),  (Integer) comboBoxPassengers.getSelectedItem(),img);
                     bicycle.setRoadType((String)comboBoxKindOfLand.getSelectedItem());
-                    bicycle.setColor(selectedColor);
+                    bicycle.setColor((String) comboBoxColor.getSelectedItem());
                     update(bicycle);
                     break;
                 }
@@ -377,7 +377,7 @@ public class CreateVehicleFrame extends JFrame implements ActionListener {
 //                    update(new CruiseShip(modelNameField.getText(), (Integer) comboBoxPassengers.getSelectedItem(),(Integer) comboBoxSpeed.getSelectedItem(), (String) comboBoxFlag.getSelectedItem() , img));
                     CruiseShip cruiseShip = (CruiseShip) vehicleFactory.create("CruiseShip", modelNameField.getText(), (Integer) comboBoxSpeed.getSelectedItem(),  (Integer) comboBoxPassengers.getSelectedItem(),img);
                     cruiseShip.setCountryFlag((String) comboBoxFlag.getSelectedItem());
-                    cruiseShip.setColor(selectedColor);
+                    cruiseShip.setColor((String) comboBoxColor.getSelectedItem());
                     update(cruiseShip);
                     break;
                 }
@@ -397,7 +397,7 @@ public class CreateVehicleFrame extends JFrame implements ActionListener {
                         amphibious.setAverageFuelConsumption((Integer) comboBoxFuel.getSelectedItem());
                         amphibious.setAverageEngineLife((Integer) comboBoxLifeTime.getSelectedItem());
                         amphibious.setWithWindDirection(withWindButton.isSelected());
-                        amphibious.setColor(selectedColor);
+                        amphibious.setColor((String) comboBoxColor.getSelectedItem());
                         update(amphibious);
                     } else {
                         ImageIcon img = getImageFromUser();
@@ -412,7 +412,7 @@ public class CreateVehicleFrame extends JFrame implements ActionListener {
                         hybridPlane.setAverageFuelConsumption((Integer) comboBoxFuel.getSelectedItem());
                         hybridPlane.setAverageEngineLife((Integer) comboBoxLifeTime.getSelectedItem());
                         hybridPlane.setWithWindDirection(withWindButton.isSelected());
-                        hybridPlane.setColor(selectedColor);
+                        hybridPlane.setColor((String) comboBoxColor.getSelectedItem());
                         update(hybridPlane);
                     }
                     break;
@@ -427,7 +427,7 @@ public class CreateVehicleFrame extends JFrame implements ActionListener {
                     ElectricBicycle electricBicycle = (ElectricBicycle) vehicleFactory.create("ElectricBicycle", modelNameField.getText(), (Integer) comboBoxSpeed.getSelectedItem(),  (Integer) comboBoxPassengers.getSelectedItem(),img);
                     electricBicycle.setRoadType((String)comboBoxKindOfLand.getSelectedItem());
                     electricBicycle.setAverageEngineLife((Integer) comboBoxLifeTime.getSelectedItem());
-                    electricBicycle.setColor(selectedColor);
+                    electricBicycle.setColor((String) comboBoxColor.getSelectedItem());
                     update(electricBicycle);
                     break;
                 }
