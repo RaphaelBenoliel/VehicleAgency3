@@ -100,23 +100,26 @@ public class MenuFrame extends JFrame implements ActionListener {
         JPanel panel = (JPanel) getContentPane().getComponent(0);
         panel.removeAll();
         panel.setLayout(new GridLayout(7, 1));
-        panel.add(totalDistanceLabel);
         panel.add(addVehicleButton);
         panel.add(buyVehicleButton);
         panel.add(takeVehicleButton);
         panel.add(resetDistanceButton);
         panel.add(changeFlagButton);
         panel.add(inventoryButton);
-        panel.add(exitButton);
         panel.add(saveStateButton);
         panel.add(loadStateButton);
+        panel.add(exitButton);
+        panel.add(totalDistanceLabel);
 
         revalidate();
         repaint();
     }
 
     private void updateTotalDistanceLabel() {
-        totalDistanceLabel.setText("Vehicles agency total distance = " + getTotal_distance() + " km");
+        totalDistanceLabel.setText("Vehicles agency total distance " + getTotal_distance() + " km");
+        totalDistanceLabel.setHorizontalAlignment(JLabel.CENTER);
+        totalDistanceLabel.setFont(new Font("Arial", Font.BOLD, 16));
+        totalDistanceLabel.setForeground(Color.BLUE);
     }
 
 //    private static void createNewInstance() {
@@ -188,6 +191,7 @@ public class MenuFrame extends JFrame implements ActionListener {
             originator.setState(VehicleMenuFrame.getVehicleList());
             caretaker.addMemento(originator.createMemento());
             updatePanelContent();
+            loadStateButton.setEnabled(true);
             JOptionPane.showMessageDialog(null, "State saved successfully!", "Save State", JOptionPane.INFORMATION_MESSAGE);
         }
 
