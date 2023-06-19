@@ -79,7 +79,7 @@ public class TestingVehicleFrame {
         panel.add(imageLabel);
 
         Color borderColor = getColorFromString(vehicle.getColor());
-        imageLabel.setBorder(BorderFactory.createLineBorder(borderColor, 2));
+        imageLabel.setBorder(BorderFactory.createLineBorder(borderColor, 6));
         panel.add(imageLabel);
 
         JTextArea detailsArea = new JTextArea(vehicle.toString());

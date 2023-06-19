@@ -122,10 +122,6 @@ public class MenuFrame extends JFrame implements ActionListener {
         totalDistanceLabel.setForeground(Color.BLUE);
     }
 
-//    private static void createNewInstance() {
-////        instance.dispose();
-//        instance = new MenuFrame();
-//    }
     public static MenuFrame getInstance() {
         if (instance == null) {
             instance = new MenuFrame();

@@ -71,7 +71,7 @@ public class BuyingVehicleFrame {
         image = image.getScaledInstance(150, 150, java.awt.Image.SCALE_SMOOTH);
         this.imageVehicle = new ImageIcon(image);
         Color borderColor = getColorFromString(vehicle.getColor());
-        imageLabel.setBorder(BorderFactory.createLineBorder(borderColor, 2));
+        imageLabel.setBorder(BorderFactory.createLineBorder(borderColor, 6));
         imageLabel.setIcon(imageVehicle);
         panel.add(imageLabel);
 
