@@ -1,9 +1,8 @@
-package Momento;
+package Memento;
 
 import vehicle.Vehicle;
 
 import java.util.ArrayList;
-import java.util.List;
 
 public class Originator {
     private ArrayList<Vehicle> state;
