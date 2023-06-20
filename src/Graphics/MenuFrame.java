@@ -186,7 +186,12 @@ public class MenuFrame extends JFrame implements ActionListener {
             originator.setState(VehicleMenuFrame.getVehicleList());
             caretaker.addMemento(originator.createMemento());
             updatePanelContent();
-            loadStateButton.setEnabled(true);
+            if (caretaker.getMemento() != null) {
+                loadStateButton.setEnabled(true); // Enable the load button after saving the state
+            }
+            else {
+                loadStateButton.setEnabled(false);
+            }
             JOptionPane.showMessageDialog(null, "State saved successfully!", "Save State", JOptionPane.INFORMATION_MESSAGE);
         }
 
@@ -209,7 +214,6 @@ public class MenuFrame extends JFrame implements ActionListener {
             VehicleMenuFrame.setVehicleList(loadedState);
             updatePanelContent();
             updateTotalDistanceLabel();
-            loadStateButton.setEnabled(false); // Disable the load button after loading the state
             JOptionPane.showMessageDialog(null, "State loaded successfully!", "Load State", JOptionPane.INFORMATION_MESSAGE);
         }
         if (source == exitButton) {
